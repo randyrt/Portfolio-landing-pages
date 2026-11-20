@@ -1,0 +1,23 @@
+{
+  "name": "portfolio-gerald-reproduction",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^5.0.3",
+    "@fortawesome/fontawesome-svg-core": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@fortawesome/vue-fontawesome": "^3.3.3",
+    "@vitejs/plugin-vue": "latest",
+    "aos": "^2.3.4",
+    "canvas-confetti": "^1.9.4",
+    "qrcode": "^1.5.4",
+    "vite": "latest",
+    "vue": "latest"
+  }
+}

@@ -1,0 +1,14 @@
+.frank-panel,
+.frank-messages {
+  overflow-x: hidden;
+}
+
+.frank-message p {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.frank-widget {
+  max-width: calc(100vw - 16px);
+}

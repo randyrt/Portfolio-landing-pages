@@ -1,0 +1,74 @@
+/* Les visuels principaux conservent toujours leur ratio complet. */
+.portrait { 
+  /* randy.jpg: 1080 × 1714. Le cadre suit le ratio portrait original. */
+  width: min(430px, 34vw);
+  height: auto;
+  aspect-ratio: 1080 / 1714;
+  min-height: 0;
+  padding: 7px;
+  border-radius: 30px;
+  background: linear-gradient(145deg, var(--mint, #2fc8a3), var(--primary, #8878ff) 52%, var(--amber, #ffbd70));
+  box-shadow: 0 0 0 1px #ffffff45, 0 0 45px #8878ff55, 0 30px 80px #030817aa;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s;
+}
+.portrait-wrap { height: 720px; }
+.portrait:hover { transform: translateY(-8px) rotate(1deg); box-shadow: 0 0 0 1px #ffffff66, 0 0 65px #2fc8a366, 0 35px 90px #030817cc; }
+.portrait img {
+  object-fit: contain;
+  object-position: center;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 24px;
+  box-shadow: none;
+  filter: saturate(1.04) contrast(1.03);
+}
+
+.back-to-top-enter-active, .back-to-top-leave-active { transition: opacity .28s ease, transform .28s cubic-bezier(.2,.8,.2,1); }
+.back-to-top-enter-from, .back-to-top-leave-to { opacity: 0; transform: translate(-50%, 12px) scale(.82); }
+.back-to-top {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  z-index: 35;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(242, 245, 255, .3);
+  border-radius: 999px;
+  background: var(--primary, #8878ff);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(3, 8, 23, .35);
+  cursor: pointer;
+  font-size: 16px;
+  transform: translateX(-50%);
+  transform-origin: center;
+  transition: opacity .25s, transform .25s, background .25s, box-shadow .25s;
+  animation: none;
+}
+.back-to-top:hover { transform: translateX(-50%) scale(1.08); background: var(--primary-deep, #6657dc); box-shadow: 0 15px 32px rgba(3, 8, 23, .48); }
+.back-to-top:active { transform: translateX(-50%) scale(.94); }
+.back-to-top:focus-visible { outline: 3px solid var(--mint, #2fc8a3); outline-offset: 4px; }
+@keyframes back-to-top-in { from { opacity: 0; transform: translateY(12px) scale(.82); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (max-width: 600px) {
+  .back-to-top { left: 50%; bottom: 16px; width: 48px; height: 48px; font-size: 14px; }
+}
+
+@media (max-width: 800px) {
+  .portrait {
+    width: min(100%, 340px);
+    height: auto;
+    aspect-ratio: 1080 / 1714;
+  }
+  .portrait-wrap { height: 610px; }
+  .expertise { padding: 90px 0; }
+  .expertise-head { display: block; }
+  .expertise-head > p { margin-top: 25px; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .experience { grid-template-columns: 1fr; gap: 40px; }
+  .timeline-item { grid-template-columns: 18px 1fr; gap: 10px; }
+  .timeline-item time { grid-column: 2; }
+  .timeline-item > div { grid-column: 2; }
+}
