@@ -9,8 +9,8 @@
   --green: #2fc8a3;
   --mist: #c5cee0;
   --line: rgba(226, 233, 255, .18);
-  --primary: #2acad5;
-  --primary-deep: #208e98;
+  --primary: #d52abe;
+  --primary-deep: #ad1f91;
   --mint: #2fc8a3;
   --amber: #ffbd70;
   --surface: #111a31;
@@ -24,7 +24,7 @@
   --color-text-secondary: #c5cee0;
   --color-text-body: #e8ecf5;
   --color-text-muted: #8893a9;
-  --color-accent-primary: #2acad5;
+  --color-accent-primary: #d52abe;
   --color-accent-secondary: #2fc8a3;
   --color-accent-tertiary: #ff806e;
   --color-success: #2fc8a3;
@@ -125,7 +125,8 @@ p.lede {
   text-shadow: 0 2px 24px rgba(136, 120, 255, 0.2); 
 }
 
-.hero h1 em, .contact h2 em { color: var(--mint); }
+.hero h1 em { color: var(--primary) !important; }
+.contact h2 em { color: var(--mint); }
 
 .hero .lede { 
   color: #dde3f0; 
@@ -383,6 +384,10 @@ p.lede {
 .expertise { background: linear-gradient(145deg, var(--accent-surface, #111a31), var(--accent-soft, #0d152a) 58%, color-mix(in srgb, var(--primary) 20%, #16254a)); }
 .manifest { background: linear-gradient(145deg, var(--ink), var(--accent-soft, #0b1328)); }
 .contact { background: linear-gradient(120deg, color-mix(in srgb, var(--mint) 72%, var(--primary)), var(--primary)); }
+.signal { background: #ffffff !important; }
+.services-section .service-card, .testimonial-stage, .whatsapp-card { background-color: #ffffff !important; }
+.projects, .services-section, .testimonials-section { background: #ffffff !important; background-image: none !important; }
+.contact-form-card { background: #ffffff !important; color: var(--ink); }
 .signal-art { grid-column: 1 / -1; width: min(100%, 900px); justify-self: center; height: auto; min-height: 400px; transform: none; margin-top: 28px; }
 .signal-grid .chapter { grid-column: 1 / -1; transform: none; justify-self: center; text-align: center; }
 .signal-copy { grid-column: 1 / -1; width: 100%; justify-self: stretch; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(18px, 3vw, 48px); align-items: end; text-align: left; }

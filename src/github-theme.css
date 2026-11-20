@@ -1,0 +1,5 @@
+/* La heatmap GitHub suit toujours la couleur choisie dans la palette. */
+.github-section .contribution-grid i.level-1 { background: color-mix(in srgb, var(--primary) 30%, #1b2e4e) !important; }
+.github-section .contribution-grid i.level-2 { background: color-mix(in srgb, var(--primary) 52%, #1b2e4e) !important; }
+.github-section .contribution-grid i.level-3 { background: color-mix(in srgb, var(--primary) 76%, #1b2e4e) !important; }
+.github-section .contribution-grid i.level-4 { background: var(--primary) !important; box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 55%, transparent); }

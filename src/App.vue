@@ -15,7 +15,7 @@ const selectedImage = ref(null)
 const cvOpen = ref(false)
 const galleryIndex = ref(0)
 const scrollPercent = ref(0)
-const primaryColor = ref(localStorage.getItem('portfolio-primary-color') || localStorage.getItem('primary-color-preference') || '#2acad5')
+const primaryColor = ref(localStorage.getItem('portfolio-primary-color') || localStorage.getItem('primary-color-preference') || '#d52abe')
 const streamingText = ref('')
 const streamingPhrases = ['Randy Andriantsiory', 'Développeur Full-Stack', 'DevOps Engineer', 'Architecture scalable']
 let streamTimeout

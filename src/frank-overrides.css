@@ -12,3 +12,8 @@
 .frank-widget {
   max-width: calc(100vw - 16px);
 }
+
+.frank-avatar {
+  background: linear-gradient(140deg, var(--mint), var(--primary)) !important;
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary) 20%, transparent), 0 14px 35px #03081788 !important;
+}
