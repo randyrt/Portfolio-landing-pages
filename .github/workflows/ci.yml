@@ -2,45 +2,42 @@ name: Portfolio app
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: 24  
+          node-version: 24
+          cache: npm
 
       - name: Installer les dépendances
         run: npm ci
-
-      # - name: Vérifier le typage TypeScript
-      #   run: |
-      #     if ! grep -q '"type-check"' package.json; then
-      #       echo "Ajout du script type-check dans package.json"
-      #       jq '.scripts["type-check"]="vue-tsc --noEmit"' package.json > package.tmp.json
-      #       mv package.tmp.json package.json
-      #     fi
-      #     npm run type-check
 
       - name: Build du projet
         run: npm run build
 
       - name: Déployer sur Netlify
-        if: success()
+        if: github.event_name == 'push' && success()
+        env:
+          NETLIFY_DEPLOY_HOOK: ${{ secrets.NETLIFY_DEPLOY_HOOK }}
         run: |
-          if [ -z "${{ secrets.NETLIFY_DEPLOY_HOOK }}" ]; then
-            echo "Erreur : le secret NETLIFY_DEPLOY_HOOK n'est pas défini"
+          if [ -z "$NETLIFY_DEPLOY_HOOK" ]; then
+            echo "Erreur : NETLIFY_DEPLOY_HOOK n'est pas défini"
             exit 1
           fi
-          curl -X POST -H "Content-Type: application/json" -d '{}' --fail "${{ secrets.NETLIFY_DEPLOY_HOOK }}"
+
+          curl --fail --silent --show-error \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "$NETLIFY_DEPLOY_HOOK"
