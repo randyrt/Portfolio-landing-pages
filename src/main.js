@@ -10,13 +10,15 @@ import './frank-overrides.css'
 import './constellation.css'
 import './streaming.css'
 import './github-theme.css'
+import './contact-overrides.css'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faRobot, faBolt, faArrowUp, faTrashCan, faPalette } from '@fortawesome/free-solid-svg-icons'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faRobot, faBolt, faArrowUp, faTrashCan, faPalette)
+library.add(faRobot, faBolt, faArrowUp, faTrashCan, faPalette, faWhatsapp)
 
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)

@@ -1,0 +1,10 @@
+.whatsapp-card .whatsapp-icon img {
+  width: 34px !important;
+  height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  object-fit: contain !important;
+  box-shadow: none !important;
+}
