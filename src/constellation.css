@@ -1,2 +1,4 @@
 /* Le noyau reste volontairement abstrait : aucune photo dans le workflow. */
 .constellation image { display: none; }
+.constellation-node text { font-size: 18px !important; font-weight: 600; }
+@media (max-width: 800px) { .constellation-node text { font-size: 14px !important; } }
