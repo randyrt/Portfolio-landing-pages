@@ -25,6 +25,6 @@ AOS.init({
   offset: 90,
   once: false,
   mirror: true,
-  disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth <= 768,
 })
 app.mount('#app')
