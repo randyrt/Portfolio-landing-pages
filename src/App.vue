@@ -15,6 +15,8 @@ const selectedImage = ref(null)
 const cvOpen = ref(false)
 const galleryIndex = ref(0)
 const scrollPercent = ref(0)
+const aboutStats = ref({ years: 0, projects: 0 })
+const aboutStatsStarted = ref(false)
 const primaryColor = ref(localStorage.getItem('portfolio-primary-color') || localStorage.getItem('primary-color-preference') || '#d52abe')
 const streamingText = ref('')
 const streamingPhrases = ['Randy Andriantsiory', 'Développeur Full-Stack', 'DevOps Engineer', 'Architecture scalable']
@@ -78,11 +80,32 @@ function runStreamingText() {
   }
   streamTimeout = window.setTimeout(runStreamingText, streamDeleting ? 48 : 92)
 }
+function animateAboutStats() {
+  if (aboutStatsStarted.value) return
+  aboutStatsStarted.value = true
+  const start = performance.now()
+  const duration = 1400
+  const update = now => {
+    const progress = Math.min((now - start) / duration, 1)
+    const eased = 1 - Math.pow(1 - progress, 3)
+    aboutStats.value = { years: Math.round(5 * eased), projects: Math.round(15 * eased) }
+    if (progress < 1) requestAnimationFrame(update)
+  }
+  requestAnimationFrame(update)
+}
 onMounted(() => {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     entry.target.classList.toggle('is-visible', entry.isIntersecting)
   }), { threshold: .12 })
   document.querySelectorAll('.signal-grid,.expertise-head,.skill-grid,.experience,.project-heading,.project-atlas,.manifest-grid,.contact-grid').forEach(el => { el.classList.add('reveal'); observer.observe(el) })
+  const statsObserver = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      animateAboutStats()
+      statsObserver.disconnect()
+    }
+  }, { threshold: .35 })
+  const statsElement = document.querySelector('.stats')
+  if (statsElement) statsObserver.observe(statsElement)
   const aosDirections = [['.signal', 'fade-up'], ['.expertise', 'fade-right'], ['.projects', 'fade-left'], ['.manifest', 'fade-up'], ['.contact', 'zoom-in']]
   aosDirections.forEach(([selector, animation]) => document.querySelector(selector)?.setAttribute('data-aos', animation))
   document.querySelectorAll('.skill-card').forEach((card, index) => { card.setAttribute('data-aos', index === 1 ? 'fade-up' : index === 0 ? 'fade-right' : 'fade-left'); card.setAttribute('data-aos-delay', String(index * 120)) })
@@ -134,7 +157,7 @@ onUnmounted(() => {
         </div>
       </section>
 
-      <section id="signal" class="signal"><div class="shell signal-grid"><div class="chapter">CHAPITRE <b>01</b> LE PROFIL</div><div class="signal-copy"><p class="kicker">DU BESOIN À LA SOLUTION</p><h2>Le code au service d’idées <em>qui avancent.</em></h2><p>Je conçois des applications web et mobiles en mêlant qualité technique, UX/UI design et efficacité de livraison.</p><p>JavaScript, Vue.js, React.js, TypeScript, PHP, Laravel, Symfony, Redis et Docker sont mes outils pour construire des solutions solides et évolutives.</p></div><div class="signal-art"><ConstellationAnimation /></div><dl class="stats"><div><dt>5+</dt><dd>années dans<br>le développement</dd></div><div><dt>15+</dt><dd>projets réalisés<br>en production</dd></div><div><dt>∞</dt><dd>envie<br>d’apprendre</dd></div></dl></div></section>
+       <section id="signal" class="signal"><div class="shell signal-grid"><div class="chapter">CHAPITRE <b>01</b> LE PROFIL</div><div class="signal-copy"><p class="kicker">DU BESOIN À LA SOLUTION</p><h2>Le code au service d’idées <em>qui avancent.</em></h2><p>Je conçois des applications web et mobiles en mêlant qualité technique, UX/UI design et efficacité de livraison.</p><p>JavaScript, Vue.js, React.js, TypeScript, PHP, Laravel, Symfony, Redis et Docker sont mes outils pour construire des solutions solides et évolutives.</p></div><div class="signal-art"><ConstellationAnimation /></div><dl class="stats"><div><dt>{{ aboutStats.years }}+</dt><dd>ans d’expérience</dd></div><div><dt>{{ aboutStats.projects }}+</dt><dd>projets réalisés</dd></div><div><dt>∞</dt><dd>envie<br>d’apprendre</dd></div></dl></div></section>
 
       <section id="expertise" class="expertise"><div class="shell"><div class="expertise-head"><div><p class="kicker violet">02 / EXPERTISE</p><h2>Une stack pensée<br>pour le <em>réel.</em></h2></div><p>Du premier écran jusqu’au déploiement, je transforme des contraintes métier en expériences rapides, fiables et maintenables.</p></div><div class="skill-grid"><article class="skill-card skill-vue"><span class="skill-number">01</span><div class="skill-icon">⌁</div><h3>Frontend</h3><p>Des interfaces lisibles et réactives, pensées pour les utilisateurs et les équipes.</p><div class="badges"><b>Vue.js 3</b><b>React.js</b><b>TypeScript</b><b>Tailwind</b><b>WordPress</b></div></article><article class="skill-card skill-laravel"><span class="skill-number">02</span><div class="skill-icon">◈</div><h3>Backend</h3><p>Des APIs et architectures métier solides, sécurisées et prêtes à évoluer.</p><div class="badges"><b>PHP</b><b>Symfony</b><b>Laravel</b><b>MySQL</b><b>Redis</b></div></article><article class="skill-card skill-devops"><span class="skill-number">03</span><div class="skill-icon">↗</div><h3>DevOps & qualité</h3><p>Automatiser les livraisons et rendre la production plus sereine.</p><div class="badges"><b>Docker</b><b>CI/CD</b><b>GitHub Actions</b><b>Linux</b><b>Terraform</b></div></article></div><div class="experience"><div class="experience-title"><p class="kicker">PARCOURS / EXPÉRIENCE</p><h3>Les étapes qui<br>m’ont construit.</h3></div><div class="timeline"><div class="timeline-item"><span class="timeline-dot"></span><time>2023 — Aujourd’hui</time><div><h4>Développeur Senior Full-Stack</h4><p>Conception d’applications complexes avec Laravel, Symfony, Vue.js et Nuxt.js. Performance, sécurité, CI/CD et accompagnement d’équipes.</p></div></div><div class="timeline-item"><span class="timeline-dot"></span><time>2021 — 2023</time><div><h4>Développeur Full-Stack · Remote</h4><p>Solutions web sur mesure pour des clients locaux et internationaux, intégrations de paiements et APIs tierces.</p></div></div><div class="timeline-item"><span class="timeline-dot"></span><time>2019 — 2021</time><div><h4>Développeur Web Backend</h4><p>Applications Laravel, bases de données, APIs REST, authentification et collaboration Git/GitLab.</p></div></div></div></div></div></section>
 

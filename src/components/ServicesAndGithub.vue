@@ -1,7 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
-const github = ref({ repos: '—', followers: '—', following: '—', commits: '—' })
+const github = ref({ repos: 25, followers: 0, commits: 0 })
+const githubAnimated = ref({ repos: 0, followers: 0, commits: 0 })
+const githubReady = ref(false)
+const githubVisible = ref(false)
+const githubAnimationStarted = ref(false)
 const technologies = ref([
   { name: 'PHP', count: 34 }, { name: 'JavaScript', count: 28 }, { name: 'TypeScript', count: 18 },
   { name: 'Vue', count: 14 }, { name: 'HTML', count: 10 }, { name: 'CSS', count: 8 },
@@ -14,7 +18,36 @@ const services = [
   { icon: '✦', title: 'Maintenance & évolution', text: 'Faire vivre un produit existant, corriger les frictions et préparer ses prochaines étapes.', points: ['Audit et optimisation', 'Refactoring sécurisé', 'Accompagnement d’équipe'] },
 ]
 
+function animateGithubStats() {
+  if (githubAnimationStarted.value) return
+  githubAnimationStarted.value = true
+  const start = performance.now()
+  const duration = 1500
+  const update = now => {
+    const progress = Math.min((now - start) / duration, 1)
+    const eased = 1 - Math.pow(1 - progress, 3)
+    githubAnimated.value = {
+      repos: Math.round(github.value.repos * eased),
+      followers: Math.round(github.value.followers * eased),
+      commits: Math.round(github.value.commits * eased),
+    }
+    if (progress < 1) requestAnimationFrame(update)
+  }
+  requestAnimationFrame(update)
+}
+
 onMounted(async () => {
+  const statsObserver = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      githubVisible.value = true
+      if (githubReady.value) {
+        animateGithubStats()
+        statsObserver.disconnect()
+      }
+    }
+  }, { threshold: .3 })
+  const githubStats = document.querySelector('#github .github-stats')
+  if (githubStats) statsObserver.observe(githubStats)
   try {
     const headers = import.meta.env.VITE_GITHUB_TOKEN ? { Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}` } : {}
     const [profile, repos] = await Promise.all([
@@ -40,12 +73,20 @@ onMounted(async () => {
       totalCommits = commitCounts.reduce((sum, count) => sum + count, 0)
     }
     github.value = {
-      repos: Array.isArray(repos) ? repos.length : profile.public_repos ?? '—',
-      followers: profile.followers ?? '—',
-      following: profile.following ?? '—',
-      commits: totalCommits || '—',
+      repos: Math.max(25, Array.isArray(repos) ? repos.length : profile.public_repos ?? 25),
+      followers: Number(profile.followers) || 0,
+      commits: totalCommits,
     }
   } catch { /* Les valeurs publiques par défaut restent visibles hors connexion. */ }
+  githubReady.value = true
+  if (githubVisible.value) {
+    animateGithubStats()
+    statsObserver.disconnect()
+  }
+})
+
+watch(githubReady, ready => {
+  if (ready && githubVisible.value) animateGithubStats()
 })
 </script>
 
@@ -57,7 +98,7 @@ onMounted(async () => {
     </div>
   </section>
 
-  <section id="github" class="github-section" data-aos="fade-up"><div class="shell github-layout"><div class="github-copy"><p class="kicker">06 / GITHUB</p><h2>Le code est aussi<br>une <em>trace.</em></h2><p>Explorez mes dépôts, mes expérimentations et les outils que je construis au fil des projets.</p><a class="github-button" href="https://github.com/randyrt" target="_blank" rel="noopener">Voir mon profil GitHub ↗</a></div><div class="github-card"><div class="github-card-head"><span class="github-mark">◉</span><div><strong>github.com/randyrt</strong><small>Full Stack Developer · Madagascar</small></div><span class="online-dot"></span></div><div class="github-stats"><div><b>{{ github.repos }}</b><span>repositories</span></div><div><b>{{ github.followers }}</b><span>followers</span></div><div><b>{{ github.following }}</b><span>following</span></div><div><b>{{ github.commits }}</b><span>commits totaux</span></div></div><div class="github-tech"><div class="github-tech-heading"><h3>Technologies utilisées</h3><small>LANGUAGES / REPOSITORIES</small></div><div v-for="technology in technologies" :key="technology.name" class="technology-row"><span>{{ technology.name }}</span><div><i :style="{width: `${Math.max(12, technology.count / maxTechnology * 100)}%`}"></i></div><b>{{ technology.count }}</b></div></div><div class="contribution-grid" aria-hidden="true"><i v-for="n in 56" :key="n" :class="`level-${(n * 7 + 3) % 5}`"></i></div><small class="github-caption">ACTIVITY / OPEN SOURCE / BUILD IN PUBLIC</small></div></div></section>
+  <section id="github" class="github-section" data-aos="fade-up"><div class="shell github-layout"><div class="github-copy"><p class="kicker">06 / GITHUB</p><h2>Le code est aussi<br>une <em>trace.</em></h2><p>Explorez mes dépôts, mes expérimentations et les outils que je construis au fil des projets.</p><a class="github-button" href="https://github.com/randyrt" target="_blank" rel="noopener">Voir mon profil GitHub ↗</a></div><div class="github-card"><div class="github-card-head"><span class="github-mark">◉</span><div><strong>github.com/randyrt</strong><small>Full Stack Developer · Madagascar</small></div><span class="online-dot"></span></div><div class="github-stats"><div><b>{{ githubAnimated.repos }}+</b><span>repositories</span></div><div><b>{{ githubAnimated.commits }}</b><span>commits totaux</span></div></div><div class="github-tech"><div class="github-tech-heading"><h3>Technologies utilisées</h3><small>LANGUAGES / REPOSITORIES</small></div><div v-for="technology in technologies" :key="technology.name" class="technology-row"><span>{{ technology.name }}</span><div><i :style="{width: `${Math.max(12, technology.count / maxTechnology * 100)}%`}"></i></div><b>{{ technology.count }}</b></div></div><div class="contribution-grid" aria-hidden="true"><i v-for="n in 56" :key="n" :class="`level-${(n * 7 + 3) % 5}`"></i></div><small class="github-caption">ACTIVITY / OPEN SOURCE / BUILD IN PUBLIC</small></div></div></section>
 </template>
 
 <style scoped>
