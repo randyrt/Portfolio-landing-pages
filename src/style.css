@@ -169,6 +169,7 @@ body::before {
 
 .hero h1 em,.signal h2 em,.project-heading h2 em,.manifest h2 em,.contact h2 em{
   font:italic .95em 'Instrument Serif';
+  line-height:1.08;
   color:var(--coral);
   letter-spacing:0;
 }
