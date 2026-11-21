@@ -19,7 +19,7 @@ const aboutStats = ref({ years: 0, projects: 0 })
 const aboutStatsStarted = ref(false)
 const primaryColor = ref(localStorage.getItem('portfolio-primary-color') || localStorage.getItem('primary-color-preference') || '#d52abe')
 const streamingText = ref('')
-const streamingPhrases = ['Randy Andriantsiory', 'Développeur Full-Stack', 'DevOps Engineer', 'Architecture scalable']
+const streamingPhrases = ['Randy Andriantsiory', 'Développeur Full-Stack', 'DevOps Engineer', 'Architecture applicative']
 const techMarquee = [
   { name: 'PHP', image: '/images/tecnos/php.png' },
   { name: 'Symfony', image: '/images/tecnos/synfony.png' },
