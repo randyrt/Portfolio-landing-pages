@@ -95,8 +95,8 @@ body::before {
 }
 
 .nav nav a:hover{
-  color:var(--coral);
-  border-bottom-color: var(--coral);
+  color:var(--mint);
+  border-bottom-color: var(--mint);
 }
 
 .nav nav b{
