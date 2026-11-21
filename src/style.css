@@ -376,6 +376,16 @@ body::before {
   }
 }
 
+/* Sur petits écrans, les animations AOS ne doivent jamais masquer le contenu. */
+@media(max-width:699px){
+  [data-aos],
+  .reveal{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+  }
+}
+
 /* Identité visuelle des compétences et du parcours */
 .expertise{
   background:#10151d;
