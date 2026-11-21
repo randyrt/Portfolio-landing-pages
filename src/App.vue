@@ -160,8 +160,8 @@ onUnmounted(() => {
     </header>
 
     <main>
-      <section id="accueil" class="hero" data-aos="fade-in" data-aos-duration="1000">
-        <div class="hero-grid shell">
+       <section id="accueil" class="hero" data-aos="fade-in" data-aos-duration="1000">
+         <div class="hero-grid shell">
           <div class="hero-copy" data-aos="fade-right" data-aos-delay="150">
             <p class="kicker">PORTFOLIO / 2026 <span>•</span> MADAGASCAR / TANANARIVE</p>
             <h1>Je transforme vos idées en produits numériques <em>modernes et scalables.</em></h1>
