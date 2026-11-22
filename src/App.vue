@@ -22,6 +22,8 @@ const streamingText = ref('')
 const streamingPhrases = ['Randy Andriantsiory', 'Développeur Full-Stack', 'DevOps Engineer', 'Architecture applicative']
 const techMarquee = [
   { name: 'PHP', image: '/images/tecnos/php.png' },
+  { name: 'Python', image: '/images/tecnos/python.png' },
+  { name: 'FastAPI', image: '/images/tecnos/fastAPI.png' },
   { name: 'Symfony', image: '/images/tecnos/synfony.png' },
   { name: 'Laravel', image: '/images/tecnos/laravel.png' },
   { name: 'Vue.js', image: '/images/tecnos/vuejs.jpg' },
