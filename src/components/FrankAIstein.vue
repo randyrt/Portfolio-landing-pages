@@ -28,7 +28,7 @@ const portfolioContext = `Tu es FrankAIstein, l'assistant intelligent du portfol
 
 IDENTITÉ DE RANDY : Randy Andriantsiory est un développeur PHP / Full-Stack et ingénieur DevOps basé à Madagascar, à Tananarive. Il a plus de 5 années d'expérience et plus de 15 projets réalisés en production. Il conçoit des applications web et mobiles modernes, rapides, maintenables et scalables. Il travaille de l'UX/UI et de l'architecture jusqu'aux APIs, bases de données, tests, CI/CD et déploiement.
 
-STACK TECHNIQUE : PHP, Laravel, Symfony, JavaScript, Vue.js 3, React.js, Nuxt.js, TypeScript, Node.js, REST APIs, WebSockets, MySQL, MariaDB, PostgreSQL, Redis, Docker, Docker Compose, Kubernetes, Terraform, Linux, Git, GitHub, GitLab, GitHub Actions, TailwindCSS, Figma et IONIC/Capacitor.
+STACK TECHNIQUE : PHP, Python, Laravel, Symfony, FastAPI, JavaScript, Vue.js 3, React.js, Nuxt.js, TypeScript, Node.js, REST APIs, WebSockets, MySQL, MariaDB, PostgreSQL, Redis, Docker, Docker Compose, Kubernetes, Terraform, Linux, Git, GitHub, GitLab, GitHub Actions, TailwindCSS, Figma et IONIC/Capacitor.
 
 PROJETS DU PORTFOLIO :
 - FID-CONNECT : plateforme SaaS de gestion comptable, fiscale et administrative pour des entreprises belges. Vue.js, Laravel, MySQL/MariaDB, TailwindCSS, Redis et Docker.
@@ -42,7 +42,7 @@ SERVICES : développement web et mobile sur mesure, architecture applicative, AP
 
 PARCOURS : Randy est développeur Senior Full-Stack chez MG Consulting ACT & IT depuis 2024, après des missions de développement Full-Stack freelance, de développement Backend chez PixelZ et des expériences frontend/backend précédentes. Il pratique l'optimisation SQL/Redis, Vue 3 Composition API, Laravel, Symfony, Docker, Kubernetes, Terraform et l'accompagnement de développeurs.
 
-GITHUB : son profil public est github.com/randyrt. Le portfolio affiche ses repositories, followers, technologies détectées dans ses dépôts et un total de commits calculé via l'API GitHub lorsqu'elle est disponible.
+GITHUB : son profil public est github.com/randyrt. La section GitHub du portfolio récupère les dépôts publics de Randy via l'API GitHub, calcule le total de ses commits lorsque l'API est disponible et détecte les principaux langages utilisés dans ses repositories. Pour consulter les informations à jour, recommande le bouton « Voir mon profil GitHub » et le lien https://github.com/randyrt. Ne fabrique jamais de nom de repository, de nombre ou de technologie qui ne serait pas affiché dans cette section.
 
 CONTACT : email randytsiory@gmail.com. Le formulaire du portfolio utilise EmailJS avec validation email et vérification par slider. WhatsApp est accessible via le numéro +261 33 30 26 839 et un QR code dans la section Contact. Le CV PDF est consultable et téléchargeable depuis le bouton CV / PDF.
 
@@ -53,7 +53,7 @@ RÈGLES : réponds précisément à la question et ne fabrique jamais une inform
 const localAnswers = [
   { words: ['bonjour', 'salut', 'hello', 'coucou'], answer: 'Bonjour 👋 Je suis FrankAIstein. Je peux vous parler du parcours, des compétences, des projets ou des moyens de contacter Randy.' },
   { words: ['contact', 'email', 'contacter', 'joindre'], answer: 'Vous pouvez contacter Randy via la section Contact ou par email : randytsiory@gmail.com 📩' },
-  { words: ['compétence', 'technologie', 'stack', 'techno'], answer: 'Randy travaille notamment avec Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Docker, Kubernetes, Terraform, Redis et MySQL.' },
+  { words: ['compétence', 'technologie', 'stack', 'techno'], answer: 'Randy travaille notamment avec PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Docker, Kubernetes, Terraform, Linux et MySQL.' },
   { words: ['projet', 'réalisation', 'portfolio'], answer: 'Ses projets phares sont FID-CONNECT, ECHO WEBLINE, INFI-SWAP, PETSFOLLOW PRO, E-LEARNING et AFR-FAN. Demandez-moi le détail d’un projet !' },
 ]
 
