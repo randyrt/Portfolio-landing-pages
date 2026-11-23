@@ -1,11 +1,17 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
+import { t, language } from '../i18n'
 
 const testimonials = [
   { name: 'Olivier Le Grand', role: 'Manager, FID-CONNECT · INFISWAP', image: '/images/temoins/olivier_le_grand.png', quote: 'Randy est dynamique, travaille de manière soignée et professionnelle. J’aime collaborer avec lui et l’apprécie aussi en tant que développeur.', label: 'LinkedIn de Olivier Le Grand ↗', url: 'https://www.linkedin.com/in/olivier-legrand-412249126/' },
   { name: 'Jean-Pierre Behaderovic', role: 'CEO, MCP Belgique', image: '/images/temoins/jean-pierre.png', quote: 'Il y a deux choses que j’apprécie chez Randy : sa capacité d’adaptation rapide et sa volonté constante d’évoluer. Je suis convaincu qu’il ira loin dans le domaine de l’informatique.', label: 'Page Digital Wallonia ↗', url: 'https://www.digitalwallonia.be/fr/cartographie/management-consultance-partenaire/' },
 ]
 const active = ref(0)
+const testimonialEnglish = [
+  { role: 'Manager, FID-CONNECT · INFISWAP', quote: 'Randy is dynamic, thorough and professional. I enjoy working with him and appreciate him as a developer.', label: 'Olivier Le Grand’s LinkedIn ↗' },
+  { role: 'CEO, MCP Belgium', quote: 'What I appreciate about Randy is his ability to adapt quickly and his constant desire to improve. I am convinced he will go far in technology.', label: 'Digital Wallonia page ↗' },
+]
+const testimonialValue = (index, field) => language.value === 'en' ? testimonialEnglish[index][field] : testimonials[index][field]
 let timer
 function next() { active.value = (active.value + 1) % testimonials.length }
 function previous() { active.value = (active.value - 1 + testimonials.length) % testimonials.length }
@@ -14,7 +20,7 @@ onUnmounted(() => window.clearInterval(timer))
 </script>
 
 <template>
-  <section id="temoignages" class="testimonials-section" data-aos="fade-up"><div class="shell"><div class="testimonials-heading"><div><p class="kicker">08 / TÉMOIGNAGES</p><h2>La confiance<br>se <em>construit.</em></h2></div><p>La qualité d’un projet se mesure aussi à la qualité de la collaboration. Voici quelques mots de ceux qui ont travaillé avec Randy.</p></div><div class="testimonial-stage"><Transition name="testimonial-slide" mode="out-in"><article :key="active" class="testimonial-feature"><div class="testimonial-person"><div class="testimonial-avatar-wrap"><img :src="testimonials[active].image" :alt="testimonials[active].name"><span>✦</span></div><div><strong>{{ testimonials[active].name }}</strong><small>{{ testimonials[active].role }}</small></div></div><blockquote>“{{ testimonials[active].quote }}”</blockquote><a :href="testimonials[active].url" target="_blank" rel="noopener">{{ testimonials[active].label }}</a></article></Transition><div class="testimonial-controls"><button type="button" @click="previous" aria-label="Témoignage précédent">←</button><div><b v-for="(_, index) in testimonials" :key="index" :class="{active:index===active}" @click="active=index"></b></div><button type="button" @click="next" aria-label="Témoignage suivant">→</button></div></div></div></section>
+  <section id="temoignages" class="testimonials-section" data-aos="fade-up"><div class="shell"><div class="testimonials-heading"><div><p class="kicker">08 / {{ t('testimonials') }}</p><h2>{{ t('testimonialsTitle') }}<br><em>{{ t('testimonialsEm') }}</em></h2></div><p>{{ language === 'fr' ? 'La qualité d’un projet se mesure aussi à la qualité de la collaboration. Voici quelques mots de ceux qui ont travaillé avec Randy.' : 'A project’s quality is also measured by the quality of collaboration. Here are a few words from people who worked with Randy.' }}</p></div><div class="testimonial-stage"><Transition name="testimonial-slide" mode="out-in"><article :key="active" class="testimonial-feature"><div class="testimonial-person"><div class="testimonial-avatar-wrap"><img :src="testimonials[active].image" :alt="testimonials[active].name"><span>✦</span></div><div><strong>{{ testimonials[active].name }}</strong><small>{{ testimonialValue(active, 'role') }}</small></div></div><blockquote>“{{ testimonialValue(active, 'quote') }}”</blockquote><a :href="testimonials[active].url" target="_blank" rel="noopener">{{ testimonialValue(active, 'label') }}</a></article></Transition><div class="testimonial-controls"><button type="button" @click="previous" aria-label="Témoignage précédent">←</button><div><b v-for="(_, index) in testimonials" :key="index" :class="{active:index===active}" @click="active=index"></b></div><button type="button" @click="next" aria-label="Témoignage suivant">→</button></div></div></div></section>
 </template>
 
 <style scoped>

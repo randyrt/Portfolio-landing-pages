@@ -1,19 +1,22 @@
 .mode-toggle {
   width: 30px;
   height: 30px;
-  margin-left: 4px;
+  margin-left: 0;
   border: 1px solid #ffffff44;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--mint));
-  color: #fff;
+  background: linear-gradient(110deg, var(--mint), #76e5c2);
+  color: var(--ink);
   cursor: pointer;
   transition: transform .25s, box-shadow .25s;
 }
-.theme-controls { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+.theme-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.language-toggle { height: 30px; padding: 0 8px; border: 1px solid #ffffff44; border-radius: 999px; background: linear-gradient(110deg, var(--mint), #76e5c2); color: var(--ink); cursor: pointer; font: 700 10px var(--body-font); letter-spacing: .08em; transition: transform .25s, box-shadow .25s; }
+.language-toggle:hover { transform: scale(1.08); box-shadow: 0 0 18px color-mix(in srgb, var(--mint), transparent 35%); }
 .floating-theme-picker { margin-left: 0; }
+.theme-controls .theme-picker { background: linear-gradient(110deg, var(--mint), #76e5c2); color: var(--ink); }
 .nav .brand { color: var(--coral); }
 @media (min-width: 801px) { .nav nav { margin-left: 62px; } }
-.mode-toggle:hover { transform: rotate(15deg) scale(1.1); box-shadow: 0 0 18px color-mix(in srgb, var(--primary), transparent 35%); }
+.mode-toggle:hover { transform: rotate(15deg) scale(1.1); box-shadow: 0 0 18px color-mix(in srgb, var(--mint), transparent 35%); }
 .availability-badge { display: inline-flex; align-items: center; gap: 8px; color: var(--mint); font: 11px var(--body-font); letter-spacing: .06em; }
 .availability-badge i, nav b i { width: 7px; height: 7px; display: inline-block; border-radius: 50%; background: var(--mint); box-shadow: 0 0 12px var(--mint); }
 .hero-photo-actions .hero-contact-button,

@@ -6,6 +6,7 @@ import ServicesAndGithub from './components/ServicesAndGithub.vue'
 import ContactSection from './components/ContactSection.vue'
 import TestimonialsSection from './components/TestimonialsSection.vue'
 import ConstellationAnimation from './components/ConstellationAnimation.vue'
+import { language, t, setLanguage } from './i18n'
 
 const active = ref(0)
 const filter = ref('Tous')
@@ -20,7 +21,9 @@ const aboutStatsStarted = ref(false)
 const primaryColor = ref(localStorage.getItem('portfolio-primary-color') || localStorage.getItem('primary-color-preference') || '#d52abe')
 const lightMode = ref(localStorage.getItem('portfolio-light-mode') === 'true')
 const streamingText = ref('')
-const streamingPhrases = ['Randy Andriantsiory', 'Développeur Full-Stack', 'DevOps Engineer', 'Architecture applicative']
+const streamingPhrases = computed(() => language.value === 'en'
+  ? ['Randy Andriantsiory', 'Full-Stack Developer', 'DevOps Engineer', 'Application architecture']
+  : ['Randy Andriantsiory', 'Développeur Full-Stack', 'Ingénieur DevOps', 'Architecture applicative'])
 const techMarquee = [
   { name: 'PHP', image: '/images/tecnos/php.png' },
   { name: 'Python', image: '/images/tecnos/python.png' },
@@ -51,9 +54,23 @@ const projects = [
   { name: 'AFR-FAN', kind: 'Réseau social', type: 'Freelance', images: ['/images/projects/afr/afr-1.PNG','/images/projects/afr/afr-2.PNG','/images/projects/afr/afr-3.PNG','/images/projects/afr/afr-4.PNG'], image: '/images/projects/afr/afr-1.PNG', text: 'Un réseau social pensé pour la communauté africaine, ses groupes et ses contenus.', tags: 'Vue.js · Laravel · VISA · PayPal' }
 ]
 const visible = computed(() => filter.value === 'Tous' ? projects : projects.filter(p => p.type === filter.value))
-const currentProject = computed(() => projects[active.value])
+const projectEnglishTexts = {
+  'Mastery Pro': 'All-in-one platform centralizing accounting, tax and administrative management for businesses.',
+  'ECHO WEBLINE': 'Web platform for medical content, congress management and professional community engagement.',
+  'INFI-SWAP': 'Solution connecting healthcare facilities directly with available nurses.',
+  'PETSFOLLOW PRO': 'Application centralizing staff, appointments, medical records and customer relationships.',
+  'E-LEARNING': 'SaaS platform dedicated to online learning, quizzes, certificates and dashboards.',
+  'AFR-FAN': 'A social network designed for the African community, its groups and content.',
+}
+const currentProject = computed(() => {
+  const project = projects[active.value]
+  return language.value === 'en' ? { ...project, text: projectEnglishTexts[project.name] || project.text } : project
+})
 const projectImpacts = { 'Mastery Pro': '−40% de tâches manuelles', 'ECHO WEBLINE': '+60% de contenus publiés', 'INFI-SWAP': 'Disponibilité 24/7', 'PETSFOLLOW PRO': 'Un suivi centralisé', 'E-LEARNING': 'Des parcours mesurables', 'AFR-FAN': 'Une communauté connectée' }
-const currentImpact = computed(() => projectImpacts[currentProject.value.name] || '')
+const projectImpactsEn = { 'Mastery Pro': '−40% manual tasks', 'ECHO WEBLINE': '+60% published content', 'INFI-SWAP': '24/7 availability', 'PETSFOLLOW PRO': 'Centralized tracking', 'E-LEARNING': 'Measurable learning paths', 'AFR-FAN': 'A connected community' }
+const projectKindsEn = { 'SaaS fiduciaire': 'Accounting SaaS', 'Imagerie cardiovasculaire': 'Cardiovascular imaging', 'Mise en relation santé': 'Healthcare matching', 'Application vétérinaire': 'Veterinary application', 'Formation en ligne': 'Online learning', 'Réseau social': 'Social network' }
+const projectKind = kind => language.value === 'en' ? projectKindsEn[kind] || kind : kind
+const currentImpact = computed(() => (language.value === 'en' ? projectImpactsEn : projectImpacts)[currentProject.value.name] || '')
 function selectProject(p) { active.value = projects.indexOf(p); galleryIndex.value = 0 }
 function selectGalleryImage(index) { galleryIndex.value = index }
 function submit() { sent.value = true }
@@ -91,8 +108,11 @@ function toggleLightMode() {
   lightMode.value = !lightMode.value
   localStorage.setItem('portfolio-light-mode', String(lightMode.value))
 }
+function toggleLanguage() {
+  setLanguage(language.value === 'fr' ? 'en' : 'fr')
+}
 function runStreamingText() {
-  const phrase = streamingPhrases[streamIndex]
+  const phrase = streamingPhrases.value[streamIndex]
   if (!streamDeleting) {
     streamingText.value = phrase.slice(0, streamChar + 1)
     streamChar++
@@ -100,7 +120,7 @@ function runStreamingText() {
   } else {
     streamingText.value = phrase.slice(0, streamChar - 1)
     streamChar--
-    if (streamChar <= 0) { streamDeleting = false; streamIndex = (streamIndex + 1) % streamingPhrases.length }
+    if (streamChar <= 0) { streamDeleting = false; streamIndex = (streamIndex + 1) % streamingPhrases.value.length }
   }
   streamTimeout = window.setTimeout(runStreamingText, streamDeleting ? 48 : 92)
 }
@@ -140,6 +160,7 @@ onMounted(() => {
   updateScrollProgress()
   updatePrimaryColor()
   document.documentElement.classList.toggle('light-mode', lightMode.value)
+  document.documentElement.lang = language.value
   runStreamingText()
 })
 let galleryTimer
@@ -163,11 +184,11 @@ onUnmounted(() => {
     <header class="nav shell">
       <a href="#accueil" class="brand">RANDY@ART.DEVMASTER</a>
       <button class="hamburger" @click="menuOpen=!menuOpen" aria-label="Menu">☰</button>
-      <nav :class="{open: menuOpen}">
-        <a href="#signal" @click="menuOpen=false">À propos</a><a href="#expertise" @click="menuOpen=false">Expertise</a><a href="#services" @click="menuOpen=false">Services</a><a href="#github" @click="menuOpen=false">GitHub</a><a href="#temoignages" @click="menuOpen=false">Témoignages</a><a href="#projets" @click="menuOpen=false">Projets</a><a href="#contact" @click="menuOpen=false">Contact</a>
-        <b><i></i> Disponible pour missions</b>
+       <nav :class="{open: menuOpen}">
+         <a href="#signal" @click="menuOpen=false">{{ t('about') }}</a><a href="#expertise" @click="menuOpen=false">{{ t('expertise') }}</a><a href="#services" @click="menuOpen=false">{{ t('services') }}</a><a href="#github" @click="menuOpen=false">{{ t('github') }}</a><a href="#temoignages" @click="menuOpen=false">{{ t('testimonials') }}</a><a href="#projets" @click="menuOpen=false">{{ t('projects') }}</a><a href="#contact" @click="menuOpen=false">{{ t('contact') }}</a>
+         <b><i></i> {{ t('available') }}</b>
       </nav>
-       <div class="theme-controls"><label class="theme-picker floating-theme-picker" title="Changer la couleur principale"><input v-model="primaryColor" type="color" @input="updatePrimaryColor" aria-label="Choisir la couleur principale"><font-awesome-icon icon="palette" /></label><button class="mode-toggle" type="button" @click="toggleLightMode" :aria-label="lightMode ? 'Activer le mode sombre' : 'Activer le mode clair'">{{ lightMode ? '☾' : '☀' }}</button></div>
+       <div class="theme-controls"><button class="language-toggle" type="button" @click="toggleLanguage" :aria-label="language === 'fr' ? 'Switch to English' : 'Passer en français'">{{ language === 'fr' ? 'EN' : 'FR' }}</button><label class="theme-picker floating-theme-picker" title="Changer la couleur principale"><input v-model="primaryColor" type="color" @input="updatePrimaryColor" aria-label="Choisir la couleur principale"><font-awesome-icon icon="palette" /></label><button class="mode-toggle" type="button" @click="toggleLightMode" :aria-label="lightMode ? 'Activer le mode sombre' : 'Activer le mode clair'">{{ lightMode ? '☾' : '☀' }}</button></div>
     </header>
 
     <main>
@@ -175,20 +196,20 @@ onUnmounted(() => {
          <div class="hero-grid shell">
           <div class="hero-copy" data-aos="fade-right" data-aos-delay="150">
             <p class="kicker">PORTFOLIO / 2026 <span>•</span> MADAGASCAR / TANANARIVE</p>
-            <h1>Je transforme vos idées en produits numériques <em>modernes et scalables.</em></h1>
-             <p class="lede">Je suis Randy, développeur PHP / Full-Stack et DevOps, passionné par la création d’applications modernes, rapides et pensées pour l’utilisateur.</p><div class="availability-badge"><i></i> Disponible pour de nouveaux projets</div>
+            <h1>{{ t('heroTitle') }} <em>{{ t('heroEm') }}</em></h1>
+             <p class="lede">{{ t('heroLede') }}</p><div class="availability-badge"><i></i> {{ t('newProjects') }}</div>
           </div>
-           <div class="portrait-wrap" data-aos="fade-left" data-aos-delay="300"><div class="hero-streaming"><span>{{ streamingText }}</span><i></i></div><figure class="portrait"><img src="/images/me/randy.jpg" alt="Portrait de Randy Andriantsiory"><figcaption>RANDY ANDRIANTSIORY / CODE · BUILD · DEPLOY</figcaption></figure><div class="orb"><span></span><span></span><span></span><span></span><div class="orb-core">✦</div></div><div class="actions hero-photo-actions"><a class="button" href="#projets">Voir les preuves <span>↓</span></a><a class="button hero-contact-button" href="#contact">Parlons de votre projet ↗</a><button class="cv-button" type="button" @click="openCv">CV / PDF <span>↗</span></button></div><p class="time">00:00:18<br>SCROLL TO ENTER</p></div>
+           <div class="portrait-wrap" data-aos="fade-left" data-aos-delay="300"><div class="hero-streaming"><span>{{ streamingText }}</span><i></i></div><figure class="portrait"><img src="/images/me/randy.jpg" alt="Portrait de Randy Andriantsiory"><figcaption>RANDY ANDRIANTSIORY / CODE · BUILD · DEPLOY</figcaption></figure><div class="orb"><span></span><span></span><span></span><span></span><div class="orb-core">✦</div></div><div class="actions hero-photo-actions"><a class="button" href="#projets">{{ t('proofs') }} <span>↓</span></a><a class="button hero-contact-button" href="#contact">{{ t('talk') }} ↗</a><button class="cv-button" type="button" @click="openCv">{{ t('cv') }} <span>↗</span></button></div><p class="time">00:00:18<br>SCROLL TO ENTER</p></div>
         </div>
       </section>
 
-       <section id="signal" class="signal"><div class="shell signal-grid"><div class="chapter">CHAPITRE <b>01</b> LE PROFIL</div><div class="signal-copy"><p class="kicker">DU BESOIN À LA SOLUTION</p><h2>Le code au service d’idées <em>qui avancent.</em></h2><p>Je conçois des applications web et mobiles en mêlant qualité technique, UX/UI design et efficacité de livraison.</p><p>JavaScript, Vue.js, React.js, TypeScript, PHP, Laravel, Symfony, Redis et Docker sont mes outils pour construire des solutions solides et évolutives.</p></div><div class="signal-art"><ConstellationAnimation /></div><dl class="stats"><div><dt>{{ aboutStats.years }}+</dt><dd>ans d’expérience</dd></div><div><dt>{{ aboutStats.projects }}+</dt><dd>projets réalisés</dd></div><div><dt>∞</dt><dd>envie<br>d’apprendre</dd></div></dl></div></section>
+       <section id="signal" class="signal"><div class="shell signal-grid"><div class="chapter">CHAPITRE <b>01</b> LE PROFIL</div><div class="signal-copy"><p class="kicker">{{ t('signalKicker') }}</p><h2>{{ t('signalTitle') }} <em>{{ t('signalEm') }}</em></h2><p>{{ t('signalText1') }}</p><p>{{ t('signalText2') }}</p></div><div class="signal-art"><ConstellationAnimation /></div><dl class="stats"><div><dt>{{ aboutStats.years }}+</dt><dd>{{ t('statYears') }}</dd></div><div><dt>{{ aboutStats.projects }}+</dt><dd>{{ t('statProjects') }}</dd></div><div><dt>∞</dt><dd>{{ t('statLearning') }}</dd></div></dl></div></section>
 
-      <section id="expertise" class="expertise"><div class="shell"><div class="expertise-head"><div><p class="kicker violet">02 / EXPERTISE</p><h2>Une stack pensée<br>pour le <em>réel.</em></h2></div><p>Du premier écran jusqu’au déploiement, je transforme des contraintes métier en expériences rapides, fiables et maintenables.</p></div><div class="skill-grid"><article class="skill-card skill-vue"><span class="skill-number">01</span><div class="skill-icon">⌁</div><h3>Frontend</h3><p>Des interfaces lisibles et réactives, pensées pour les utilisateurs et les équipes.</p><div class="badges"><b>Vue.js 3</b><b>React.js</b><b>TypeScript</b><b>Tailwind</b><b>WordPress</b></div></article><article class="skill-card skill-laravel"><span class="skill-number">02</span><div class="skill-icon">◈</div><h3>Backend</h3><p>Des APIs et architectures métier solides, sécurisées et prêtes à évoluer.</p><div class="badges"><b>PHP</b><b>Symfony</b><b>Laravel</b><b>MySQL</b><b>Python (FastAPI)</b></div></article><article class="skill-card skill-devops"><span class="skill-number">03</span><div class="skill-icon">↗</div><h3>DevOps & qualité</h3><p>Automatiser les livraisons et rendre la production plus sereine.</p><div class="badges"><b>Docker</b><b>CI/CD</b><b>GitHub Actions</b><b>Linux</b><b>Terraform</b></div></article></div><div class="tech-marquee" aria-label="Technologies utilisées"><div class="tech-marquee-track"><div v-for="(tech, index) in [...techMarquee, ...techMarquee]" :key="`${tech.name}-${index}`" class="tech-marquee-item"><img :src="tech.image" :alt="tech.name" loading="lazy"><span>{{ tech.name }}</span></div></div></div><div class="experience"><div class="experience-title"><p class="kicker">PARCOURS / EXPÉRIENCE</p><h3>Les étapes qui<br>m’ont construit.</h3></div><div class="timeline"><div class="timeline-item"><span class="timeline-dot"></span><time>2023 — Aujourd’hui</time><div><h4>Développeur Senior Full-Stack</h4><p>Conception d’applications complexes avec Laravel, Symfony, Vue.js et Nuxt.js. Performance, sécurité, CI/CD et accompagnement d’équipes.</p></div></div><div class="timeline-item"><span class="timeline-dot"></span><time>2021 — 2023</time><div><h4>Développeur Full-Stack · Remote</h4><p>Solutions web sur mesure pour des clients locaux et internationaux, intégrations de paiements et APIs tierces.</p></div></div><div class="timeline-item"><span class="timeline-dot"></span><time>2019 — 2021</time><div><h4>Développeur Web Backend</h4><p>Applications Laravel, bases de données, APIs REST, authentification et collaboration Git/GitLab.</p></div></div></div></div></div></section>
+      <section id="expertise" class="expertise"><div class="shell"><div class="expertise-head"><div><p class="kicker violet">02 / {{ t('expertise') }}</p><h2>{{ t('expertiseTitle') }}<br><em>{{ t('expertiseEm') }}</em></h2></div><p>{{ t('expertiseText') }}</p></div><div class="skill-grid"><article class="skill-card skill-vue"><span class="skill-number">01</span><div class="skill-icon">⌁</div><h3>Frontend</h3><p>{{ t('frontendText') }}</p><div class="badges"><b>Vue.js 3</b><b>React.js</b><b>TypeScript</b><b>Tailwind</b><b>WordPress</b></div></article><article class="skill-card skill-laravel"><span class="skill-number">02</span><div class="skill-icon">◈</div><h3>Backend</h3><p>{{ t('backendText') }}</p><div class="badges"><b>PHP</b><b>Symfony</b><b>Laravel</b><b>MySQL</b><b>Python (FastAPI)</b></div></article><article class="skill-card skill-devops"><span class="skill-number">03</span><div class="skill-icon">↗</div><h3>DevOps & qualité</h3><p>{{ t('devopsText') }}</p><div class="badges"><b>Docker</b><b>CI/CD</b><b>GitHub Actions</b><b>Linux</b><b>Terraform</b></div></article></div><div class="tech-marquee" aria-label="Technologies utilisées"><div class="tech-marquee-track"><div v-for="(tech, index) in [...techMarquee, ...techMarquee]" :key="`${tech.name}-${index}`" class="tech-marquee-item"><img :src="tech.image" :alt="tech.name" loading="lazy"><span>{{ tech.name }}</span></div></div></div><div class="experience"><div class="experience-title"><p class="kicker">{{ t('career') }}</p><h3>{{ t('careerTitle') }}</h3></div><div class="timeline"><div class="timeline-item"><span class="timeline-dot"></span><time>2023 — Aujourd’hui</time><div><h4>{{ t('senior') }}</h4><p>{{ t('seniorText') }}</p></div></div><div class="timeline-item"><span class="timeline-dot"></span><time>2021 — 2023</time><div><h4>{{ t('remote') }}</h4><p>{{ t('remoteText') }}</p></div></div><div class="timeline-item"><span class="timeline-dot"></span><time>2019 — 2021</time><div><h4>{{ t('backendRole') }}</h4><p>{{ t('backendRoleText') }}</p></div></div></div></div></div></section>
 
-      <section id="projets" class="projects"><div class="shell"><div class="project-heading"><p class="kicker">03 / INDEX / RÉALISATIONS</p><h2>Des systèmes<br><em>en mouvement.</em></h2><p>Quelques terrains où j’ai transformé des contraintes métier en produits concrets.</p></div><div class="filters"><button v-for="f in ['Tous','SaaS','Web','Freelance']" :key="f" :class="{active:filter===f}" @click="filter=f">{{ f }}</button></div><div class="project-atlas"><div class="project-list"><button v-for="p in visible" :key="p.name" @click="selectProject(p)" :class="{selected:projects.indexOf(p)===active}"><span>0{{ projects.indexOf(p)+1 }}</span><strong>{{ p.name }}</strong><small>{{ p.kind }}</small><b>↗</b></button></div><article class="project-card"><button class="project-image" type="button" :aria-label="`Agrandir ${currentProject.name}`" @click="openImage(currentProject.images[galleryIndex])"><Transition name="project-image-fade" mode="out-in"><img :key="currentProject.images[galleryIndex]" :src="currentProject.images[galleryIndex]" :alt="`${currentProject.name} — capture ${galleryIndex + 1}`"></Transition><span>PROJECT / 0{{active+1}} · CAPTURE {{ galleryIndex + 1 }} / {{ currentProject.images.length }}</span><i>⌕</i><div class="gallery-dots"><b v-for="(_, index) in currentProject.images" :key="index" :class="{active:index===galleryIndex}" @click.stop="selectGalleryImage(index)"></b></div></button><div class="project-detail"><p class="kicker">{{ currentProject.kind }}</p><h3>{{ currentProject.name }}</h3><p>{{ currentProject.text }}</p><p class="project-impact"><strong>{{ currentImpact }}</strong><span>Impact métier</span></p><div class="tags"><b v-for="tag in currentProject.tags.split(' · ')" :key="tag">{{ tag }}</b></div><div class="project-actions"><a v-if="currentProject.url" class="project-button" :href="currentProject.url" target="_blank" rel="noopener">Voir le projet ↗</a><a class="text-link dark" href="#contact">Parler de ce projet →</a></div></div></article></div></div></section>
+      <section id="projets" class="projects"><div class="shell"><div class="project-heading"><p class="kicker">03 / INDEX / RÉALISATIONS</p><h2>{{ t('projectsTitle') }}<br><em>{{ t('projectsEm') }}</em></h2><p>{{ t('projectsIntro') }}</p></div><div class="filters"><button v-for="f in ['Tous','SaaS','Web','Freelance']" :key="f" :class="{active:filter===f}" @click="filter=f">{{ language === 'fr' ? f : (f === 'Tous' ? 'All' : f) }}</button></div><div class="project-atlas"><div class="project-list"><button v-for="p in visible" :key="p.name" @click="selectProject(p)" :class="{selected:projects.indexOf(p)===active}"><span>0{{ projects.indexOf(p)+1 }}</span><strong>{{ p.name }}</strong><small>{{ projectKind(p.kind) }}</small><b>↗</b></button></div><article class="project-card"><button class="project-image" type="button" :aria-label="`Agrandir ${currentProject.name}`" @click="openImage(currentProject.images[galleryIndex])"><Transition name="project-image-fade" mode="out-in"><img :key="currentProject.images[galleryIndex]" :src="currentProject.images[galleryIndex]" :alt="`${currentProject.name} — capture ${galleryIndex + 1}`"></Transition><span>PROJECT / 0{{active+1}} · CAPTURE {{ galleryIndex + 1 }} / {{ currentProject.images.length }}</span><i>⌕</i><div class="gallery-dots"><b v-for="(_, index) in currentProject.images" :key="index" :class="{active:index===galleryIndex}" @click.stop="selectGalleryImage(index)"></b></div></button><div class="project-detail"><p class="kicker">{{ projectKind(currentProject.kind) }}</p><h3>{{ currentProject.name }}</h3><p>{{ currentProject.text }}</p><p class="project-impact"><strong>{{ currentImpact }}</strong><span>{{ t('impactLabel') }}</span></p><div class="tags"><b v-for="tag in currentProject.tags.split(' · ')" :key="tag">{{ tag }}</b></div><div class="project-actions"><a v-if="currentProject.url" class="project-button" :href="currentProject.url" target="_blank" rel="noopener">{{ t('projectView') }} ↗</a><a class="text-link dark" href="#contact">{{ t('projectDiscuss') }} →</a></div></div></article></div></div></section>
 
-      <section class="manifest"><div class="shell"><p class="kicker">02 / MA MANIÈRE DE TRAVAILLER</p><h2>La technique au service<br>des <em>métiers.</em></h2><div class="manifest-grid"><div><b>01</b><h3>Comprendre</h3><p>Clarifier les usages, les enjeux et les vrais problèmes avant d’écrire une ligne de code.</p></div><div><b>02</b><h3>Construire</h3><p>Concevoir des architectures simples, robustes et capables d’accompagner la croissance.</p></div><div><b>03</b><h3>Transmettre</h3><p>Documenter, automatiser et livrer des systèmes que les équipes peuvent faire évoluer.</p></div></div></div></section>
+      <section class="manifest"><div class="shell"><p class="kicker">02 / HOW I WORK</p><h2>{{ t('methodTitle') }}<br><em>{{ t('methodEm') }}</em></h2><div class="manifest-grid"><div><b>01</b><h3>{{ t('methodUnderstand') }}</h3><p>{{ t('methodUnderstandText') }}</p></div><div><b>02</b><h3>{{ t('methodBuild') }}</h3><p>{{ t('methodBuildText') }}</p></div><div><b>03</b><h3>{{ t('methodShare') }}</h3><p>{{ t('methodShareText') }}</p></div></div></div></section>
 
     </main>
     <ServicesAndGithub />

@@ -1,5 +1,6 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { language } from '../i18n'
 
 const open = ref(false)
 const input = ref('')
@@ -56,6 +57,12 @@ const localAnswers = [
   { words: ['compétence', 'technologie', 'stack', 'techno'], answer: 'Randy travaille notamment avec PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Docker, Kubernetes, Terraform, Linux et MySQL.' },
   { words: ['projet', 'réalisation', 'portfolio'], answer: 'Ses projets phares sont FID-CONNECT, ECHO WEBLINE, INFI-SWAP, PETSFOLLOW PRO, E-LEARNING et AFR-FAN. Demandez-moi le détail d’un projet !' },
 ]
+const localAnswersEn = [
+  { words: ['hello', 'hi', 'hey'], answer: 'Hello 👋 I’m FrankAIstein. I can tell you about Randy’s background, skills, projects or how to contact him.' },
+  { words: ['contact', 'email', 'reach'], answer: 'You can contact Randy through the Contact section or by email: randytsiory@gmail.com 📩' },
+  { words: ['skill', 'technology', 'stack'], answer: 'Randy works with PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Docker, Kubernetes, Terraform, Linux and MySQL.' },
+  { words: ['project', 'portfolio'], answer: 'His main projects include FID-CONNECT, ECHO WEBLINE, INFI-SWAP, PETSFOLLOW PRO, E-LEARNING and AFR-FAN. Ask me for details!' },
+]
 
 const rendered = value => value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')
 const save = () => localStorage.setItem('frankairstein_history', JSON.stringify(messages.value.slice(-30)))
@@ -64,24 +71,25 @@ const wait = delay => new Promise(resolve => setTimeout(resolve, delay))
 
 function localResponse(question) {
   const normalized = question.toLowerCase()
-  return localAnswers.find(item => item.words.some(word => normalized.includes(word)))?.answer
+  const answers = language.value === 'en' ? localAnswersEn : localAnswers
+  return answers.find(item => item.words.some(word => normalized.includes(word)))?.answer
 }
 
 async function askGemini(question) {
-  if (!keys.length) return 'Je fonctionne actuellement avec ma base locale. Ajoutez une clé `VITE_GEMINI_API_KEY_1` dans votre fichier `.env` pour activer Gemini 🚀'
+  if (!keys.length) return language.value === 'en' ? 'I am currently using my local knowledge base. Add a `VITE_GEMINI_API_KEY_1` key to your `.env` file to enable Gemini 🚀' : 'Je fonctionne actuellement avec ma base locale. Ajoutez une clé `VITE_GEMINI_API_KEY_1` dans votre fichier `.env` pour activer Gemini 🚀'
   const history = messages.value.slice(-8).map(message => ({ role: message.role === 'assistant' ? 'model' : 'user', parts: [{ text: message.content }] }))
   for (const key of keys) {
     try {
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ systemInstruction: { parts: [{ text: portfolioContext }] }, contents: [...history, { role: 'user', parts: [{ text: question }] }], generationConfig: { temperature: .65, maxOutputTokens: 700 } })
+        body: JSON.stringify({ systemInstruction: { parts: [{ text: `${portfolioContext}\n\nInterface language selected: ${language.value}. Always answer in ${language.value === 'en' ? 'English' : 'French'}, unless the user clearly writes in another language.` }] }, contents: [...history, { role: 'user', parts: [{ text: question }] }], generationConfig: { temperature: .65, maxOutputTokens: 700 } })
       })
       if (!response.ok) continue
       const data = await response.json()
       return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Je n’ai pas réussi à formuler une réponse cette fois.'
     } catch { /* Essaie la clé suivante. */ }
   }
-  return 'Gemini est momentanément indisponible. Essayez une question sur les projets, la stack ou le parcours de Randy.'
+  return language.value === 'en' ? 'Gemini is temporarily unavailable. Try asking about Randy’s projects, stack or background.' : 'Gemini est momentanément indisponible. Essayez une question sur les projets, la stack ou le parcours de Randy.'
 }
 
 async function send(value = input.value) {
@@ -107,7 +115,7 @@ async function streamResponse(answer) {
     await wait(speed)
   }
 }
-function clearConversation() { messages.value = [{ role: 'assistant', content: 'Conversation réinitialisée. Que souhaitez-vous découvrir sur Randy ?' }]; save() }
+function clearConversation() { messages.value = [{ role: 'assistant', content: language.value === 'en' ? 'Conversation reset. What would you like to discover about Randy?' : 'Conversation réinitialisée. Que souhaitez-vous découvrir sur Randy ?' }]; save() }
 function toggle() { open.value = !open.value; showTooltip.value = false; if (open.value) scrollBottom() }
 const widgetStyle = computed(() => botPosition.value ? { left: `${botPosition.value.x}px`, top: `${botPosition.value.y}px`, right: 'auto', bottom: 'auto' } : {})
 function clamp(value, min, max) { return Math.min(Math.max(value, min), max) }
@@ -145,7 +153,7 @@ function streamTooltip(message) {
 
 onMounted(() => {
   try { messages.value = JSON.parse(localStorage.getItem('frankairstein_history') || '[]') } catch { messages.value = [] }
-  if (!messages.value.length) messages.value.push({ role: 'assistant', content: '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?' })
+  if (!messages.value.length) messages.value.push({ role: 'assistant', content: language.value === 'en' ? '👋 Hello! I’m FrankAIstein, Randy’s AI assistant. I can tell you about his background, projects and skills. What would you like to know?' : '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?' })
   try { const saved = JSON.parse(localStorage.getItem('frankairstein_position') || 'null'); if (saved?.x >= 0 && saved?.y >= 0) botPosition.value = saved } catch { /* position par défaut */ }
   streamTooltip(tooltipMessages[0])
   tooltipHideTimeout = window.setTimeout(() => { showTooltip.value = false }, 7000)

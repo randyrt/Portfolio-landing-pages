@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
+import { t, language } from '../i18n'
 
 const github = ref({ repos: 25, followers: 0, commits: 0 })
 const githubAnimated = ref({ repos: 0, followers: 0, commits: 0 })
@@ -17,6 +18,13 @@ const services = [
   { icon: '↗', title: 'Conseil & architecture', text: 'Clarifier le besoin, structurer le produit et choisir les technologies qui servent réellement le projet.', points: ['Architecture évolutive', 'Documentation fonctionnelle', 'Performance et qualité'] },
   { icon: '✦', title: 'Maintenance & évolution', text: 'Faire vivre un produit existant, corriger les frictions et préparer ses prochaines étapes.', points: ['Audit et optimisation', 'Refactoring sécurisé', 'Accompagnement d’équipe'] },
 ]
+const servicesEn = [
+  { title: 'Custom development', text: 'Web and mobile applications designed for your needs, from interface to API.', points: ['Vue.js · React · Nuxt', 'Laravel · Symfony · Node.js', 'REST APIs and integrations'] },
+  { title: 'DevOps & deployment', text: 'Reliable environments and controlled releases, from your machine to production.', points: ['Docker · Kubernetes · Terraform', 'CI/CD GitHub Actions', 'Linux · security · monitoring'] },
+  { title: 'Consulting & architecture', text: 'Clarify the need, structure the product and choose technologies that truly serve the project.', points: ['Scalable architecture', 'Functional documentation', 'Performance and quality'] },
+  { title: 'Maintenance & evolution', text: 'Keep an existing product moving, remove friction and prepare its next steps.', points: ['Audit and optimization', 'Safe refactoring', 'Team support'] },
+]
+const localService = (service, index, field) => language.value === 'en' ? servicesEn[index][field] : service[field]
 
 function animateGithubStats() {
   if (githubAnimationStarted.value) return
@@ -93,12 +101,12 @@ watch(githubReady, ready => {
 <template>
   <section id="services" class="services-section" data-aos="fade-up">
     <div class="shell">
-      <div class="services-heading" data-aos="fade-right"><div><p class="kicker">05 / SERVICES</p><h2>Construire mieux,<br><em>ensemble.</em></h2></div><p>Une expertise technique mise au service d’équipes qui veulent transformer une idée en produit fiable.</p></div>
-      <div class="services-grid"><article v-for="(service, index) in services" :key="service.title" class="service-card" data-aos="fade-up" :data-aos-delay="index * 100"><span class="service-index">0{{ index + 1 }}</span><div class="service-icon">{{ service.icon }}</div><h3>{{ service.title }}</h3><p>{{ service.text }}</p><ul><li v-for="point in service.points" :key="point">{{ point }}</li></ul></article></div>
+      <div class="services-heading" data-aos="fade-right"><div><p class="kicker">05 / SERVICES</p><h2>{{ t('servicesTitle') }}<br><em>{{ t('servicesEm') }}</em></h2></div><p>{{ language === 'fr' ? 'Une expertise technique mise au service d’équipes qui veulent transformer une idée en produit fiable.' : 'Technical expertise for teams that want to turn an idea into a reliable product.' }}</p></div>
+      <div class="services-grid"><article v-for="(service, index) in services" :key="service.title" class="service-card" data-aos="fade-up" :data-aos-delay="index * 100"><span class="service-index">0{{ index + 1 }}</span><div class="service-icon">{{ service.icon }}</div><h3>{{ localService(service, index, 'title') }}</h3><p>{{ localService(service, index, 'text') }}</p><ul><li v-for="point in localService(service, index, 'points')" :key="point">{{ point }}</li></ul></article></div>
     </div>
   </section>
 
-  <section id="github" class="github-section" data-aos="fade-up"><div class="shell github-layout"><div class="github-copy"><p class="kicker">06 / GITHUB</p><h2>Le code est aussi<br>une <em>trace.</em></h2><p>Explorez mes dépôts, mes expérimentations et les outils que je construis au fil des projets.</p><a class="github-button" href="https://github.com/randyrt" target="_blank" rel="noopener">Voir mon profil GitHub ↗</a></div><div class="github-card"><div class="github-card-head"><span class="github-mark">◉</span><div><strong>github.com/randyrt</strong><small>Full Stack Developer · Madagascar</small></div><span class="online-dot"></span></div><div class="github-stats"><div><b>{{ githubAnimated.repos }}+</b><span>repositories</span></div><div><b>{{ githubAnimated.commits }}</b><span>commits totaux</span></div></div><div class="github-tech"><div class="github-tech-heading"><h3>Technologies utilisées</h3><small>LANGUAGES / REPOSITORIES</small></div><div v-for="technology in technologies" :key="technology.name" class="technology-row"><span>{{ technology.name }}</span><div><i :style="{width: `${Math.max(12, technology.count / maxTechnology * 100)}%`}"></i></div><b>{{ technology.count }}</b></div></div><div class="contribution-grid" aria-hidden="true"><i v-for="n in 56" :key="n" :class="`level-${(n * 7 + 3) % 5}`"></i></div><small class="github-caption">ACTIVITY / OPEN SOURCE / BUILD IN PUBLIC</small></div></div></section>
+  <section id="github" class="github-section" data-aos="fade-up"><div class="shell github-layout"><div class="github-copy"><p class="kicker">06 / GITHUB</p><h2>{{ t('githubTitle') }}<br>{{ t('githubEm') }}</h2><p>{{ t('githubText') }}</p><a class="github-button" href="https://github.com/randyrt" target="_blank" rel="noopener">{{ language === 'fr' ? 'Voir mon profil GitHub' : 'View my GitHub profile' }} ↗</a></div><div class="github-card"><div class="github-card-head"><span class="github-mark">◉</span><div><strong>github.com/randyrt</strong><small>Full Stack Developer · Madagascar</small></div><span class="online-dot"></span></div><div class="github-stats"><div><b>{{ githubAnimated.repos }}+</b><span>repositories</span></div><div><b>{{ githubAnimated.commits }}</b><span>{{ language === 'fr' ? 'commits totaux' : 'total commits' }}</span></div></div><div class="github-tech"><div class="github-tech-heading"><h3>{{ language === 'fr' ? 'Technologies utilisées' : 'Technologies used' }}</h3><small>LANGUAGES / REPOSITORIES</small></div><div v-for="technology in technologies" :key="technology.name" class="technology-row"><span>{{ technology.name }}</span><div><i :style="{width: `${Math.max(12, technology.count / maxTechnology * 100)}%`}"></i></div><b>{{ technology.count }}</b></div></div><div class="contribution-grid" aria-hidden="true"><i v-for="n in 56" :key="n" :class="`level-${(n * 7 + 3) % 5}`"></i></div><small class="github-caption">ACTIVITY / OPEN SOURCE / BUILD IN PUBLIC</small></div></div></section>
 </template>
 
 <style scoped>
