@@ -156,12 +156,14 @@ p.lede {
 
 .manifest { background: #0b1328; }
 
-.contact { 
-  background: linear-gradient(120deg, #2fc8a3 0%, #8878ff 100%); 
+.contact {
+  background: radial-gradient(circle at 82% 24%, rgba(136,120,255,.2), transparent 30%),
+              linear-gradient(145deg, #0a1020 0%, #101a35 52%, #0a1020 100%);
 }
 
-.contact .kicker { color: #10203a; }
-.contact h2 em { color: #0a1020; }
+.contact .kicker { color: var(--mist); }
+.contact h2 { color: #fff; }
+.contact h2 em { color: var(--primary) !important; }
 
 /* Buttons & Interactive Elements */
 .button { 
@@ -383,7 +385,7 @@ p.lede {
 .projects { background-color: var(--accent-pale, #e5eaff); }
 .expertise { background: linear-gradient(145deg, var(--accent-surface, #111a31), var(--accent-soft, #0d152a) 58%, color-mix(in srgb, var(--primary) 20%, #16254a)); }
 .manifest { background: linear-gradient(145deg, var(--ink), var(--accent-soft, #0b1328)); }
-.contact { background: linear-gradient(120deg, color-mix(in srgb, var(--mint) 72%, var(--primary)), var(--primary)); }
+  .contact { background: radial-gradient(circle at 82% 24%, color-mix(in srgb, var(--primary) 24%, transparent), transparent 30%), linear-gradient(145deg, var(--ink), var(--accent-soft, #101a35) 52%, var(--ink)); }
 .signal { background: #ffffff !important; }
 .services-section .service-card, .testimonial-stage, .whatsapp-card { background-color: #ffffff !important; }
 .projects, .services-section, .testimonials-section { background: #ffffff !important; background-image: none !important; }
