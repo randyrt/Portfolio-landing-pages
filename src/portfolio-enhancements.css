@@ -43,10 +43,32 @@
 .project-impact span { color: #69738b; font: 10px var(--body-font); letter-spacing: .12em; text-transform: uppercase; }
 .site.light-mode { --ink: #17223b; --paper: #fff; --text: #17223b; --mist: #526078; --color-text-primary: #17223b; --color-text-body: #273653; }
 .site.light-mode .hero, .site.light-mode .contact { background: linear-gradient(145deg, #eef2ff, #fff 52%, #e8edff); color: var(--ink); }
+.site.light-mode .expertise, .site.light-mode .manifest, .site.light-mode .github-section { background: linear-gradient(145deg, #eef2ff, #fff 52%, #e8edff); color: var(--ink); }
+.site.light-mode .github-section { background: #fff; }
+.site.light-mode .github-section .github-card { background: #fff; color: var(--ink); border-color: #8290bd55; }
+.site.light-mode .github-section .github-card-head strong,
+.site.light-mode .github-section .github-card-head small,
+.site.light-mode .github-section .technology-row { color: var(--ink); }
+.site.light-mode .github-section .github-tech-heading h3,
+.site.light-mode .github-section .github-tech-heading small,
+.site.light-mode .github-section .technology-row span,
+.site.light-mode .github-section .technology-row b,
+.site.light-mode .github-section .technology-row { color: #000 !important; }
+.site.light-mode .tech-marquee-item span,
+.site.light-mode .badges b { color: #000 !important; }
+.site.light-mode .github-section .github-tech { border-color: #8290bd55; }
+.site.light-mode .github-section .technology-row>div { background: #dce5f5; }
+.site.light-mode .github-section .github-caption { color: #526078; }
+.site.light-mode .expertise p, .site.light-mode .manifest p, .site.light-mode .github-section .github-copy>p:not(.kicker) { color: #526078; }
+.site.light-mode .github-section .github-card { box-shadow: 0 25px 75px rgba(82,102,163,.2); }
 .site.light-mode .hero .lede, .site.light-mode .hero h1, .site.light-mode .contact h2 { color: var(--ink); }
 .site.light-mode .hero .kicker, .site.light-mode .contact .kicker { color: #526078; }
-.site.light-mode .github-section .github-copy h2 { color: #fff; }
-.site.light-mode .github-section .github-button { color: #fff; }
+.site.light-mode .github-section .github-copy h2 { color: var(--ink); }
+.site.light-mode .github-section .github-copy h2 em { color: var(--ink); }
+.site.light-mode .github-section .github-stats { padding: 20px; border-radius: 10px; background: #fff; }
+.site.light-mode .github-section .github-stats b { color: var(--primary-deep) !important; }
+.site.light-mode .github-section .github-stats span { color: #526078 !important; }
+.site.light-mode .github-section .github-button { color: #000; }
 .site.light-mode .nav { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
