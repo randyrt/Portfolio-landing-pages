@@ -6,7 +6,7 @@ const nodes = [
   { id: 'backend', label: 'BACKEND', x: 535, y: 170, color: '#ff806e', tags: ['Laravel', 'Symfony', 'Go', 'PHP', 'Node.js'] },
   { id: 'data', label: 'DONNÉES', x: 520, y: 410, color: '#8878ff', tags: ['MySQL', 'MariaDB', 'Redis', 'PostgreSQL'] },
   { id: 'devops', label: 'DEVOPS', x: 320, y: 470, color: '#ffbd70', tags: ['Docker', 'Kubernetes', 'Terraform', 'CI/CD'] },
-  { id: 'saas', label: 'ARCHITECT SAAS', x: 110, y: 410, color: '#2fc8a3', tags: ['SaaS', 'REST API', 'WebSockets'] },
+  { id: 'saas', label: 'ARCHITECT', x: 110, y: 410, color: '#2fc8a3', tags: ['SaaS', 'REST API', 'WebSockets'] },
   { id: 'tools', label: 'OUTILS', x: 95, y: 170, color: '#8878ff', tags: ['Git', 'GitHub', 'Linux', 'Figma'] },
 ]
 const selected = computed(() => nodes.find(node => node.id === active.value) || nodes[1])
