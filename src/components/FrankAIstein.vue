@@ -8,14 +8,20 @@ const loading = ref(false)
 const showTooltip = ref(true)
 const messages = ref([])
 const chatBody = ref(null)
-const tooltip = ref('Besoin d’une info ? Je suis FrankAIstein 🤖')
-const tooltipMessages = [
+const tooltip = ref('')
+const tooltipMessages = computed(() => language.value === 'en' ? [
+  'Need some info? I’m FrankAIstein 🤖',
+  'I know Randy’s projects. Ask me!',
+  'A technical question? I’m listening ⚡',
+  'Let’s talk stack, architecture or background 🚀',
+  'I can guide you through this portfolio ✦',
+] : [
   'Besoin d’une info ? Je suis FrankAIstein 🤖',
   'Je connais les projets de Randy. Demandez-moi !',
   'Une question technique ? Je vous écoute ⚡',
   'Parlons stack, architecture ou parcours 🚀',
   'Je peux vous guider dans ce portfolio ✦',
-]
+])
 let tooltipStreamTimeout
 let tooltipHideTimeout
 const botPosition = ref(null)
@@ -155,11 +161,11 @@ onMounted(() => {
   try { messages.value = JSON.parse(localStorage.getItem('frankairstein_history') || '[]') } catch { messages.value = [] }
   if (!messages.value.length) messages.value.push({ role: 'assistant', content: language.value === 'en' ? '👋 Hello! I’m FrankAIstein, Randy’s AI assistant. I can tell you about his background, projects and skills. What would you like to know?' : '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?' })
   try { const saved = JSON.parse(localStorage.getItem('frankairstein_position') || 'null'); if (saved?.x >= 0 && saved?.y >= 0) botPosition.value = saved } catch { /* position par défaut */ }
-  streamTooltip(tooltipMessages[0])
+   streamTooltip(tooltipMessages.value[0])
   tooltipHideTimeout = window.setTimeout(() => { showTooltip.value = false }, 7000)
   tooltipInterval = window.setInterval(() => {
     if (!open.value && document.visibilityState === 'visible') {
-      tooltip.value = tooltipMessages[Math.floor(Math.random() * tooltipMessages.length)]
+       tooltip.value = tooltipMessages.value[Math.floor(Math.random() * tooltipMessages.value.length)]
       showTooltip.value = true
       streamTooltip(tooltip.value)
       window.clearTimeout(tooltipHideTimeout)
