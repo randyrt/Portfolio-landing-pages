@@ -39,8 +39,8 @@ STACK TECHNIQUE : PHP, Python, Laravel, Symfony, FastAPI, JavaScript, Vue.js 3, 
 
 PROJETS DU PORTFOLIO :
 - FID-CONNECT : plateforme SaaS de gestion comptable, fiscale et administrative pour des entreprises belges. Vue.js, Laravel, MySQL/MariaDB, TailwindCSS, Redis et Docker.
-- ECHO WEBLINE : plateforme médicale consacrée à l'imagerie cardiovasculaire et aux événements scientifiques. React.js, Symfony, MySQL, Redis et workflows temps réel.
-- INFI-SWAP : plateforme belge de mise en relation automatisée entre établissements de santé et infirmiers disponibles. Nuxt.js, Symfony, TailwindCSS, Docker et Redis.
+- ECHO WEBLINE : plateforme médicale consacrée à l'imagerie cardiovasculaire et aux événements scientifiques. Vue.js, Laravel, MySQL, Redis et workflows temps réel.
+- INFI-SWAP : plateforme belge de mise en relation automatisée entre établissements de santé et infirmiers disponibles. Nuxt.js, Laravel, TailwindCSS, Docker et Redis.
 - PETSFOLLOW PRO : outil de gestion pour cliniques vétérinaires : personnel, rendez-vous, dossiers médicaux et communication avec les propriétaires. Vue.js, Laravel, MySQL et Redis.
 - E-LEARNING : plateforme SaaS de formation en ligne avec cours interactifs, quiz, certificats, paiements et analytics. React.js, Symfony et MySQL.
 - AFR-FAN : réseau social pour la diaspora africaine avec groupes, contenus culturels et paiements VISA/PayPal. Vue.js, Laravel, TailwindCSS et Redis.
