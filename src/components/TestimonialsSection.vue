@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { t, language } from '../i18n'
 
 const testimonials = [
-  { name: 'Olivier Le Grand', role: 'Manager, FID-CONNECT · INFISWAP', image: '/images/temoins/olivier_le_grand.png', quote: 'Randy est dynamique, travaille de manière soignée et professionnelle. J’aime collaborer avec lui et l’apprécie aussi en tant que développeur.', label: 'LinkedIn de Olivier Le Grand ↗', url: 'https://www.linkedin.com/in/olivier-legrand-412249126/' },
+  { name: 'Olivier Le Grand', role: 'Manager, Mastery Pro · INFISWAP', image: '/images/temoins/olivier_le_grand.png', quote: 'Randy est dynamique, travaille de manière soignée et professionnelle. J’aime collaborer avec lui et l’apprécie aussi en tant que développeur.', label: 'LinkedIn de Olivier Le Grand ↗', url: 'https://www.linkedin.com/in/olivier-legrand-412249126/' },
   { name: 'Jean-Pierre Behaderovic', role: 'CEO, MCP Belgique', image: '/images/temoins/jean-pierre.png', quote: 'Il y a deux choses que j’apprécie chez Randy : sa capacité d’adaptation rapide et sa volonté constante d’évoluer. Je suis convaincu qu’il ira loin dans le domaine de l’informatique.', label: 'Page Digital Wallonia ↗', url: 'https://www.digitalwallonia.be/fr/cartographie/management-consultance-partenaire/' },
 ]
 const active = ref(0)
