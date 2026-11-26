@@ -441,7 +441,7 @@ body::before {
 
 .skill-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:16px;
 }
 
@@ -503,6 +503,14 @@ body::before {
 
 .skill-devops:after{
   background:#65a9ff;
+}
+
+.skill-database{
+  border-top:2px solid #8878ff;
+}
+
+.skill-database:after{
+  background:#8878ff;
 }
 
 .skill-number{
