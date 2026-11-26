@@ -5,6 +5,7 @@ import FrankAIstein from './components/FrankAIstein.vue'
 import ServicesAndGithub from './components/ServicesAndGithub.vue'
 import ContactSection from './components/ContactSection.vue'
 import TestimonialsSection from './components/TestimonialsSection.vue'
+import WebCupSection from './components/WebCupSection.vue'
 import ConstellationAnimation from './components/ConstellationAnimation.vue'
 import { language, t, setLanguage } from './i18n'
 
@@ -152,7 +153,7 @@ onMounted(() => {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     entry.target.classList.toggle('is-visible', entry.isIntersecting)
   }), { threshold: .12 })
-  document.querySelectorAll('.signal-grid,.expertise-head,.skill-grid,.experience,.project-heading,.project-atlas,.manifest-grid,.contact-grid').forEach(el => { el.classList.add('reveal'); observer.observe(el) })
+   document.querySelectorAll('.signal-grid,.expertise-head,.skill-grid,.experience,.project-heading,.project-atlas,.manifest-grid,.contact-grid,.webcup-case-study').forEach(el => { el.classList.add('reveal'); observer.observe(el) })
   const statsObserver = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
       animateAboutStats()
@@ -161,7 +162,7 @@ onMounted(() => {
   }, { threshold: .35 })
   const statsElement = document.querySelector('.stats')
   if (statsElement) statsObserver.observe(statsElement)
-  const aosDirections = [['.signal', 'fade-up'], ['.expertise', 'fade-right'], ['.projects', 'fade-left'], ['.manifest', 'fade-up'], ['.contact', 'zoom-in']]
+   const aosDirections = [['.signal', 'fade-up'], ['.expertise', 'fade-right'], ['.projects', 'fade-left'], ['.webcup-section', 'fade-up'], ['.manifest', 'fade-up'], ['.contact', 'zoom-in']]
   aosDirections.forEach(([selector, animation]) => document.querySelector(selector)?.setAttribute('data-aos', animation))
   document.querySelectorAll('.skill-card').forEach((card, index) => { card.setAttribute('data-aos', index === 1 ? 'fade-up' : index === 0 ? 'fade-right' : 'fade-left'); card.setAttribute('data-aos-delay', String(index * 120)) })
   document.querySelectorAll('.timeline-item').forEach((item, index) => { item.setAttribute('data-aos', index % 2 ? 'fade-left' : 'fade-right'); item.setAttribute('data-aos-delay', String(index * 100)) })
@@ -196,7 +197,7 @@ onUnmounted(() => {
       <a href="#accueil" class="brand">RANDY@ART.DEVMASTER</a>
       <button class="hamburger" @click="menuOpen=!menuOpen" aria-label="Menu">☰</button>
        <nav :class="{open: menuOpen}">
-         <a href="#signal" @click="menuOpen=false">{{ t('about') }}</a><a href="#expertise" @click="menuOpen=false">{{ t('expertise') }}</a><a href="#services" @click="menuOpen=false">{{ t('services') }}</a><a href="#github" @click="menuOpen=false">{{ t('github') }}</a><a href="#temoignages" @click="menuOpen=false">{{ t('testimonials') }}</a><a href="#projets" @click="menuOpen=false">{{ t('projects') }}</a><a href="#contact" @click="menuOpen=false">{{ t('contact') }}</a>
+         <a href="#signal" @click="menuOpen=false">{{ t('about') }}</a><a href="#expertise" @click="menuOpen=false">{{ t('expertise') }}</a><a href="#services" @click="menuOpen=false">{{ t('services') }}</a><a href="#github" @click="menuOpen=false">{{ t('github') }}</a><a href="#temoignages" @click="menuOpen=false">{{ t('testimonials') }}</a><a href="#projets" @click="menuOpen=false">{{ t('projects') }}</a><a href="#webcup" @click="menuOpen=false">WebCup</a><a href="#contact" @click="menuOpen=false">{{ t('contact') }}</a>
          <b><i></i> {{ t('available') }}</b>
       </nav>
        <div class="theme-controls"><button class="language-toggle" type="button" @click="toggleLanguage" :aria-label="language === 'fr' ? 'Switch to English' : 'Passer en français'">{{ language === 'fr' ? 'EN' : 'FR' }}</button><label class="theme-picker floating-theme-picker" title="Changer la couleur principale"><input v-model="primaryColor" type="color" @input="updatePrimaryColor" aria-label="Choisir la couleur principale"><font-awesome-icon icon="palette" /></label><button class="mode-toggle" type="button" @click="toggleLightMode" :aria-label="lightMode ? 'Activer le mode sombre' : 'Activer le mode clair'">{{ lightMode ? '☾' : '☀' }}</button></div>
@@ -220,11 +221,12 @@ onUnmounted(() => {
 
       <section id="projets" class="projects"><div class="shell"><div class="project-heading"><p class="kicker">03 / INDEX / RÉALISATIONS</p><h2>{{ t('projectsTitle') }}<br><em>{{ t('projectsEm') }}</em></h2><p>{{ t('projectsIntro') }}</p></div><div class="filters"><button v-for="f in ['Tous','SaaS','Web métier','Micro-service']" :key="f" :class="{active:filter===f}" @click="filter=f">{{ projectFilterLabel(f) }}</button></div><div class="project-atlas"><div class="project-list"><button v-for="p in visible" :key="p.name" @click="selectProject(p)" :class="{selected:projects.indexOf(p)===active}"><span>0{{ projects.indexOf(p)+1 }}</span><strong>{{ p.name }}</strong><small>{{ projectKind(p.kind) }}</small><b>↗</b></button></div><article class="project-card"><button class="project-image" type="button" :aria-label="`Agrandir ${currentProject.name}`" @click="openImage(currentProject.images[galleryIndex])"><Transition name="project-image-fade" mode="out-in"><img :key="currentProject.images[galleryIndex]" :src="currentProject.images[galleryIndex]" :alt="`${currentProject.name} — capture ${galleryIndex + 1}`"></Transition><span>PROJECT / 0{{active+1}} · CAPTURE {{ galleryIndex + 1 }} / {{ currentProject.images.length }}</span><i>⌕</i><div class="gallery-dots"><b v-for="(_, index) in currentProject.images" :key="index" :class="{active:index===galleryIndex}" @click.stop="selectGalleryImage(index)"></b></div></button><div class="project-detail"><p class="kicker">{{ projectKind(currentProject.kind) }}</p><h3>{{ currentProject.name }}</h3><p>{{ currentProject.text }}</p><p class="project-impact"><strong>{{ currentImpact }}</strong><span>{{ t('impactLabel') }}</span></p><div class="tags"><b v-for="tag in currentProject.tags.split(' · ')" :key="tag">{{ tag }}</b></div><div class="project-actions"><a v-if="currentProject.url" class="project-button" :href="currentProject.url" target="_blank" rel="noopener">{{ t('projectView') }} ↗</a><a class="text-link dark" href="#contact">{{ t('projectDiscuss') }} →</a></div></div></article></div></div></section>
 
-      <section class="manifest"><div class="shell"><p class="kicker">02 / HOW I WORK</p><h2>{{ t('methodTitle') }}<br><em>{{ t('methodEm') }}</em></h2><div class="manifest-grid"><div><b>01</b><h3>{{ t('methodUnderstand') }}</h3><p>{{ t('methodUnderstandText') }}</p></div><div><b>02</b><h3>{{ t('methodBuild') }}</h3><p>{{ t('methodBuildText') }}</p></div><div><b>03</b><h3>{{ t('methodShare') }}</h3><p>{{ t('methodShareText') }}</p></div></div></div></section>
+       <section class="manifest"><div class="shell"><p class="kicker">02 / HOW I WORK</p><h2>{{ t('methodTitle') }}<br><em>{{ t('methodEm') }}</em></h2><div class="manifest-grid"><div><b>01</b><h3>{{ t('methodUnderstand') }}</h3><p>{{ t('methodUnderstandText') }}</p></div><div><b>02</b><h3>{{ t('methodBuild') }}</h3><p>{{ t('methodBuildText') }}</p></div><div><b>03</b><h3>{{ t('methodShare') }}</h3><p>{{ t('methodShareText') }}</p></div></div></div></section>
+       <WebCupSection />
 
     </main>
     <ServicesAndGithub />
-    <TestimonialsSection />
+     <TestimonialsSection />
     <ContactSection />
     <Transition name="cv-modal"><div v-if="cvOpen" class="cv-modal" role="dialog" aria-modal="true" aria-label="Curriculum vitae" @click.self="cvOpen=false"><div class="cv-dialog"><header><div><p class="kicker">DOCUMENT / RANDY ANDRIANTSIORY</p><h2>Curriculum <em>vitae.</em></h2></div><button class="cv-close" type="button" @click="cvOpen=false" aria-label="Fermer">×</button></header><div class="cv-viewer"><iframe src="/images/cv/CV_Randy_Andriantsiory_DEV_Backend.pdf" title="CV de Randy Andriantsiory"></iframe></div><footer><span>PDF · Laravel · Symfony · Vue.js</span><a class="cv-download" href="/images/cv/CV_Randy_Andriantsiory_DEV_Backend.pdf" download="CV_Randy_Andriantsiory_DEV_Backend.pdf">Télécharger mon CV ↓</a></footer></div></div></Transition>
     <Transition name="back-to-top"><button v-if="scrollPercent > 12" class="back-to-top" type="button" @click="scrollToTop" aria-label="Revenir en haut"><font-awesome-icon icon="arrow-up" /></button></Transition>
