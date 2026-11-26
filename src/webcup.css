@@ -14,3 +14,10 @@
 .site.light-mode .webcup-pillars p{color:#60708e}
 .site.light-mode .webcup-footer{border-color:#8290bd55;color:#60708e}
 .site.light-mode .webcup-link{color:var(--ink)}
+.webcup-section{background:#0b1328 !important;background-color:#0b1328 !important;background-image:none !important}
+.webcup-section:before{display:none}
+.site.light-mode .webcup-section{background:linear-gradient(145deg,#eef2ff,#fff 52%,#e8edff) !important}
+.site.light-mode .webcup-section:before{display:block}
+.site:not(.light-mode) .webcup-section{background:radial-gradient(circle at 82% 24%,color-mix(in srgb,var(--primary) 22%,transparent),transparent 30%),linear-gradient(145deg,#0a1020 0%,#101a35 52%,#0a1020 100%) !important;background-image:radial-gradient(circle at 82% 24%,color-mix(in srgb,var(--primary) 22%,transparent),transparent 30%),linear-gradient(145deg,#0a1020 0%,#101a35 52%,#0a1020 100%) !important}
+.site:not(.light-mode) .webcup-section:before{display:none}
+.site:not(.light-mode) .webcup-section{background:radial-gradient(circle at 82% 24%,color-mix(in srgb,var(--primary) 40%,transparent),transparent 42%),radial-gradient(circle at 14% 78%,color-mix(in srgb,var(--primary) 28%,transparent),transparent 38%),linear-gradient(145deg,#0a1020 0%,#101a35 52%,#0a1020 100%) !important;background-image:radial-gradient(circle at 82% 24%,color-mix(in srgb,var(--primary) 40%,transparent),transparent 42%),radial-gradient(circle at 14% 78%,color-mix(in srgb,var(--primary) 28%,transparent),transparent 38%),linear-gradient(145deg,#0a1020 0%,#101a35 52%,#0a1020 100%) !important}
