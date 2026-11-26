@@ -14,13 +14,13 @@ const technologies = ref([
 ])
 const maxTechnology = computed(() => Math.max(...technologies.value.map(technology => technology.count), 1))
 const services = [
-  { icon: '⌘', title: 'Développement sur mesure', text: 'Applications web et mobiles pensées pour vos usages, de l’interface à l’API.', points: ['Vue.js · React · Nuxt', 'Laravel · Symfony · Node.js', 'APIs REST et intégrations'] },
+  { icon: '⌘', title: 'Développement sur mesure', text: 'Applications web et mobiles pensées pour vos usages, de l’interface à l’API.', points: ['Vue.js · React', 'Laravel · Symfony · Spring Boot · Python (FastAPI)', 'APIs REST et intégrations'] },
   { icon: '◈', title: 'DevOps & déploiement', text: 'Des environnements fiables et des livraisons maîtrisées, de votre machine à la production.', points: ['Docker · Kubernetes · Terraform', 'CI/CD GitHub Actions', 'Linux · sécurité · monitoring'] },
   { icon: '↗', title: 'Conseil & architecture', text: 'Clarifier le besoin, structurer le produit et choisir les technologies qui servent réellement le projet.', points: ['Architecture évolutive', 'Documentation fonctionnelle', 'Performance et qualité'] },
   { icon: '✦', title: 'Maintenance & évolution', text: 'Faire vivre un produit existant, corriger les frictions et préparer ses prochaines étapes.', points: ['Audit et optimisation', 'Refactoring sécurisé', 'Accompagnement d’équipe'] },
 ]
 const servicesEn = [
-  { title: 'Custom development', text: 'Web and mobile applications designed for your needs, from interface to API.', points: ['Vue.js · React · Nuxt', 'Laravel · Symfony · Node.js', 'REST APIs and integrations'] },
+  { title: 'Custom development', text: 'Web and mobile applications designed for your needs, from interface to API.', points: ['Vue.js · React', 'Laravel · Symfony · Spring Boot · Python (FastAPI)', 'REST APIs and integrations'] },
   { title: 'DevOps & deployment', text: 'Reliable environments and controlled releases, from your machine to production.', points: ['Docker · Kubernetes · Terraform', 'CI/CD GitHub Actions', 'Linux · security · monitoring'] },
   { title: 'Consulting & architecture', text: 'Clarify the need, structure the product and choose technologies that truly serve the project.', points: ['Scalable architecture', 'Functional documentation', 'Performance and quality'] },
   { title: 'Maintenance & evolution', text: 'Keep an existing product moving, remove friction and prepare its next steps.', points: ['Audit and optimization', 'Safe refactoring', 'Team support'] },
