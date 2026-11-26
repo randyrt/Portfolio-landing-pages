@@ -17,7 +17,6 @@ import { language, t } from '../i18n'
         <div class="webcup-visual">
           <div class="webcup-visual-top"><span>WEBCUP / 2024</span><span>CASE STUDY_01</span></div>
           <img src="/images/webcup24/webcup.jpg" :alt="t('webcupImageAlt')">
-          <div class="webcup-logo"><img src="/webCup_logo.png" alt="WebCup"></div>
           <span class="webcup-stamp">BUILD<br>TOGETHER<br>✦</span>
         </div>
 
