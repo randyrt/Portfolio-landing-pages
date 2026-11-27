@@ -9,8 +9,8 @@
   --green: #2fc8a3;
   --mist: #c5cee0;
   --line: rgba(226, 233, 255, .18);
-  --primary: #d52abe;
-  --primary-deep: #ad1f91;
+  --primary: #2ac1d5;
+  --primary-deep: #0ea5b9;
   --mint: #2fc8a3;
   --amber: #ffbd70;
   --surface: #111a31;
@@ -85,7 +85,7 @@ h1 { font-weight: 700; }
 h2 { font-weight: 600; }
 h3, h4 { font-weight: 500; }
 
-.kicker, .mono, .button, .text-link, .footer, .time, .nav nav a, .tags b, .badges b, .project-button { 
+  .kicker, .mono, .button, .text-link, .footer, .time, .nav nav a, .badges b, .project-button { 
   font-family: var(--body-font) !important; 
   letter-spacing: 0.12em;
 }
