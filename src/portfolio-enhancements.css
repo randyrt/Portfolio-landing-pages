@@ -77,3 +77,15 @@
   background: radial-gradient(circle at 82% 24%, color-mix(in srgb, var(--primary) 40%, transparent), transparent 42%), radial-gradient(circle at 14% 78%, color-mix(in srgb, var(--primary) 28%, transparent), transparent 38%), linear-gradient(145deg, #0a1020 0%, #101a35 52%, #0a1020 100%) !important;
 }
 .site:not(.light-mode) .services-section { background: #fff !important; color: var(--ink); }
+.site:not(.light-mode) .contact-form-card,
+.site:not(.light-mode) .whatsapp-card { background: #111a31 !important; border-color: #8290bd55 !important; color: #f2f5ff !important; }
+.site:not(.light-mode) .contact-form-card .field label { color: #c5cee0; }
+.site:not(.light-mode) .contact-form-card .field input,
+.site:not(.light-mode) .contact-form-card .field textarea { color: #f2f5ff; border-color: #8290bd88; }
+.site:not(.light-mode) .contact-form-card .field input::placeholder,
+.site:not(.light-mode) .contact-form-card .field textarea::placeholder { color: #8893a9; }
+.site:not(.light-mode) .contact-form-card .field label,
+.site:not(.light-mode) .whatsapp-card h3,
+.site:not(.light-mode) .whatsapp-card p,
+.site:not(.light-mode) .whatsapp-card small { color: #fff !important; }
+.site:not(.light-mode) .skill-card { background: #111a31 !important; }
