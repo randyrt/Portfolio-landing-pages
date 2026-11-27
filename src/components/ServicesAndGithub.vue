@@ -8,9 +8,9 @@ const githubReady = ref(false)
 const githubVisible = ref(false)
 const githubAnimationStarted = ref(false)
 const technologies = ref([
-  { name: 'PHP', count: 34 }, { name: 'JavaScript', count: 28 }, { name: 'TypeScript', count: 18 },
-  { name: 'Java', count: 1 },
-  { name: 'Vue', count: 14 }, { name: 'HTML', count: 10 }, { name: 'CSS', count: 8 },
+  { name: 'PHP', count: 34 }, { name: 'Java', count: 1 }, { name: 'TypeScript', count: 18 },
+  { name: 'JavaScript', count: 28 },
+  { name: 'HTML', count: 10 },
 ])
 const maxTechnology = computed(() => Math.max(...technologies.value.map(technology => technology.count), 1))
 const services = [
@@ -65,12 +65,21 @@ onMounted(async () => {
     ])
     const languageCounts = {}
     if (Array.isArray(repos)) repos.forEach(repo => { if (repo.language) languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1 })
-    const sortedLanguages = Object.entries(languageCounts).sort((a, b) => b[1] - a[1])
+    const sortedLanguages = Object.entries(languageCounts)
+      .filter(([name]) => !['Blade', 'Go', 'Vue', 'HCL', 'CSS'].includes(name))
+      .sort((a, b) => b[1] - a[1])
     const detected = sortedLanguages.slice(0, 8).map(([name, count]) => ({ name, count }))
     // Keep Java visible when the new Spring Boot repository is outside the top 8.
     const java = languageCounts.Java
     if (java && !detected.some(technology => technology.name === 'Java')) {
       detected[detected.length - 1] = { name: 'Java', count: java }
+    }
+    const javascriptIndex = detected.findIndex(technology => technology.name === 'JavaScript')
+    const javaIndex = detected.findIndex(technology => technology.name === 'Java')
+    if (javascriptIndex !== -1 && javaIndex !== -1) {
+      const javascript = detected[javascriptIndex]
+      detected[javascriptIndex] = detected[javaIndex]
+      detected[javaIndex] = javascript
     }
     if (detected.length) technologies.value = detected
     let totalCommits = 0
