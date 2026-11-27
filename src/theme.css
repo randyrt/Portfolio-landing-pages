@@ -254,7 +254,7 @@ p.lede {
 
 .project-button:hover { 
   background: var(--primary-deep); 
-  color: #fff !important; 
+  color: #000 !important; 
   transform: translateY(-3px);
   box-shadow: 0 8px 28px rgba(136, 120, 255, 0.4);
 }

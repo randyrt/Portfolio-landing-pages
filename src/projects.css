@@ -146,6 +146,7 @@
   inset: 0;
   background: linear-gradient(135deg, #8878ff, #2fc8a3);
   opacity: 0;
+  z-index: 0;
   transition: opacity 0.3s;
 }
 
@@ -159,7 +160,7 @@
 }
 
 .project-button:hover { 
-  color: var(--paper); 
+  color: #000 !important; 
   transform: translateY(-3px);
   box-shadow: 0 8px 28px rgba(136, 120, 255, 0.4);
 }
