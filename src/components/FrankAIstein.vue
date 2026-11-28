@@ -7,6 +7,7 @@ const input = ref('')
 const loading = ref(false)
 const showTooltip = ref(true)
 const messages = ref([])
+const welcomePending = ref(false)
 const chatBody = ref(null)
 const tooltip = ref('')
 const tooltipMessages = computed(() => language.value === 'en' ? [
@@ -29,6 +30,9 @@ const isDragging = ref(false)
 const hasDragged = ref(false)
 const dragOffset = ref({ x: 0, y: 0 })
 const suggestions = ['Parle-moi de Randy', 'Quels sont ses projets ?', 'Quelles sont ses compétences ?', 'Comment le contacter ?']
+const welcomeMessage = () => language.value === 'en'
+  ? '👋 Hello! I’m FrankAIstein, Randy’s AI assistant. I can tell you about his background, projects and skills. What would you like to know?'
+  : '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?'
 
 const keys = [1, 2, 3, 4].map(i => import.meta.env[`VITE_GEMINI_API_KEY_${i}`]).filter(key => key?.startsWith('AIza'))
 const portfolioContext = `Tu es FrankAIstein, l'assistant intelligent du portfolio de Randy Andriantsiory. Ton nom vient de Frank + AI + Frankenstein : tu es une intelligence assemblée avec du code, des APIs et une personnalité humaine. Tu es friendly, professionnel, honnête, curieux et parfois joueur avec quelques emojis. Réponds dans la langue de l'utilisateur : français si la question est en français, anglais si elle est en anglais.
@@ -126,11 +130,10 @@ async function toggle() {
   open.value = !open.value
   showTooltip.value = false
   if (open.value) {
-    if (!messages.value.length) {
-      const welcome = language.value === 'en'
-        ? '👋 Hello! I’m FrankAIstein, Randy’s AI assistant. I can tell you about his background, projects and skills. What would you like to know?'
-        : '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?'
-      await streamResponse(welcome)
+    if (welcomePending.value) {
+      welcomePending.value = false
+      await streamResponse(welcomeMessage())
+      localStorage.setItem('frankairstein_welcome_streamed', 'true')
     }
     await scrollBottom()
   }
@@ -171,6 +174,14 @@ function streamTooltip(message) {
 
 onMounted(() => {
   try { messages.value = JSON.parse(localStorage.getItem('frankairstein_history') || '[]') } catch { messages.value = [] }
+  // Rejoue en streaming le message d’accueil, même s’il avait été sauvegardé avant.
+  const welcomeIndex = messages.value.findIndex(message => message.role === 'assistant' && (
+    message.content?.includes('Que souhaitez-vous savoir ?') ||
+    message.content?.includes('What would you like to know?')
+  ))
+  const welcomeAlreadyStreamed = localStorage.getItem('frankairstein_welcome_streamed') === 'true'
+  welcomePending.value = !welcomeAlreadyStreamed && (welcomeIndex >= 0 || !messages.value.length)
+  if (!welcomeAlreadyStreamed && welcomeIndex >= 0) messages.value.splice(welcomeIndex, 1)
   try { const saved = JSON.parse(localStorage.getItem('frankairstein_position') || 'null'); if (saved?.x >= 0 && saved?.y >= 0) botPosition.value = saved } catch { /* position par défaut */ }
    streamTooltip(tooltipMessages.value[0])
   tooltipHideTimeout = window.setTimeout(() => { showTooltip.value = false }, 7000)
