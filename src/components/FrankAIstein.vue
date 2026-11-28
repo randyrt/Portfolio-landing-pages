@@ -212,7 +212,7 @@ watch(open, value => { if (value) scrollBottom() })
     <Transition name="frank-panel">
       <section v-if="open" class="frank-panel" aria-label="Conversation avec FrankAIstein">
          <header class="frank-header"><div class="frank-avatar small"><font-awesome-icon icon="bolt" class="frank-bolt"/><font-awesome-icon icon="robot" class="frank-robot"/><i></i></div><div><strong>FrankAIstein</strong><small>Assistant de Randy</small></div><button class="frank-clear-icon" @click="clearConversation" aria-label="Supprimer la discussion" title="Supprimer la discussion"><font-awesome-icon icon="trash-can" /></button><button class="frank-close" @click="toggle" aria-label="Fermer">×</button></header>
-        <div ref="chatBody" class="frank-messages"><div v-for="(message, index) in messages" :key="index" class="frank-message" :class="message.role"><div v-if="message.role==='assistant'" class="frank-mini">✦</div><p v-html="rendered(message.content)"></p></div><div v-if="loading" class="frank-message assistant"><div class="frank-mini">✦</div><p class="typing"><i></i><i></i><i></i></p></div></div>
+        <div ref="chatBody" class="frank-messages"><div v-for="(message, index) in messages" :key="index" class="frank-message" :class="message.role"><div v-if="message.role==='assistant'" class="frank-mini">✦</div><p v-html="rendered(message.content)"></p></div></div>
         <form class="frank-form" @submit.prevent="send()"><input v-model="input" :disabled="loading" placeholder="Écrire à FrankAIstein…" autocomplete="off"><button :disabled="loading || !input.trim()" aria-label="Envoyer">↑</button></form>
         <button class="frank-clear" @click="clearConversation">Effacer la conversation</button>
       </section>
