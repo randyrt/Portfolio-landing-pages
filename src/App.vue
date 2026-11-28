@@ -154,7 +154,7 @@ onMounted(() => {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     entry.target.classList.toggle('is-visible', entry.isIntersecting)
   }), { threshold: .12 })
-   document.querySelectorAll('.signal-grid,.expertise-head,.skill-grid,.experience,.project-heading,.project-atlas,.manifest-grid,.contact-grid,.webcup-case-study').forEach(el => { el.classList.add('reveal'); observer.observe(el) })
+   document.querySelectorAll('.signal-grid,.expertise-head,.skill-grid,.experience,.project-heading,.project-atlas,.manifest-grid,.contact-grid,.webcup-case-study,.workstation-section').forEach(el => { el.classList.add('reveal'); observer.observe(el) })
   const statsObserver = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
       animateAboutStats()
@@ -163,7 +163,7 @@ onMounted(() => {
   }, { threshold: .35 })
   const statsElement = document.querySelector('.stats')
   if (statsElement) statsObserver.observe(statsElement)
-   const aosDirections = [['.signal', 'fade-up'], ['.expertise', 'fade-right'], ['.projects', 'fade-left'], ['.webcup-section', 'fade-up'], ['.manifest', 'fade-up'], ['.contact', 'zoom-in']]
+   const aosDirections = [['.signal', 'fade-up'], ['.expertise', 'fade-right'], ['.projects', 'fade-left'], ['.webcup-section', 'fade-up'], ['.manifest', 'fade-up'], ['.contact', 'zoom-in'], ['.workstation-section', 'fade-up']]
   aosDirections.forEach(([selector, animation]) => document.querySelector(selector)?.setAttribute('data-aos', animation))
   document.querySelectorAll('.skill-card').forEach((card, index) => { card.setAttribute('data-aos', index === 1 ? 'fade-up' : index === 0 ? 'fade-right' : 'fade-left'); card.setAttribute('data-aos-delay', String(index * 120)) })
   document.querySelectorAll('.timeline-item').forEach((item, index) => { item.setAttribute('data-aos', index % 2 ? 'fade-left' : 'fade-right'); item.setAttribute('data-aos-delay', String(index * 100)) })

@@ -5,7 +5,7 @@ import { t } from '../i18n'
 <template>
   <section class="workstation-section" aria-labelledby="workstation-title">
     <div class="workstation-shell">
-      <div class="workstation-copy">
+      <div class="workstation-copy" data-aos="fade-right">
         <p class="workstation-kicker">{{ t('workstationKicker') }}</p>
         <h2 id="workstation-title">{{ t('workstationTitle') }} <em>{{ t('workstationEm') }}</em></h2>
         <p class="workstation-lede">{{ t('workstationText') }}</p>
@@ -16,7 +16,7 @@ import { t } from '../i18n'
           <span>{{ t('workstationPointThree') }}</span>
         </div>
       </div>
-      <figure class="workstation-image">
+      <figure class="workstation-image" data-aos="fade-left" data-aos-delay="180">
         <img src="/images/me/me_working.png" :alt="t('workstationImageAlt')" loading="lazy">
         <figcaption>{{ t('workstationCaption') }}</figcaption>
       </figure>
