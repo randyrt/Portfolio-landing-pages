@@ -122,7 +122,19 @@ async function streamResponse(answer) {
   }
 }
 function clearConversation() { messages.value = [{ role: 'assistant', content: language.value === 'en' ? 'Conversation reset. What would you like to discover about Randy?' : 'Conversation réinitialisée. Que souhaitez-vous découvrir sur Randy ?' }]; save() }
-function toggle() { open.value = !open.value; showTooltip.value = false; if (open.value) scrollBottom() }
+async function toggle() {
+  open.value = !open.value
+  showTooltip.value = false
+  if (open.value) {
+    if (!messages.value.length) {
+      const welcome = language.value === 'en'
+        ? '👋 Hello! I’m FrankAIstein, Randy’s AI assistant. I can tell you about his background, projects and skills. What would you like to know?'
+        : '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?'
+      await streamResponse(welcome)
+    }
+    await scrollBottom()
+  }
+}
 const widgetStyle = computed(() => botPosition.value ? { left: `${botPosition.value.x}px`, top: `${botPosition.value.y}px`, right: 'auto', bottom: 'auto' } : {})
 function clamp(value, min, max) { return Math.min(Math.max(value, min), max) }
 function startDrag(event) {
@@ -159,7 +171,6 @@ function streamTooltip(message) {
 
 onMounted(() => {
   try { messages.value = JSON.parse(localStorage.getItem('frankairstein_history') || '[]') } catch { messages.value = [] }
-  if (!messages.value.length) messages.value.push({ role: 'assistant', content: language.value === 'en' ? '👋 Hello! I’m FrankAIstein, Randy’s AI assistant. I can tell you about his background, projects and skills. What would you like to know?' : '👋 Bonjour ! Je suis FrankAIstein, l’assistant IA de Randy. Je peux vous parler de son parcours, de ses projets et de ses compétences. Que souhaitez-vous savoir ?' })
   try { const saved = JSON.parse(localStorage.getItem('frankairstein_position') || 'null'); if (saved?.x >= 0 && saved?.y >= 0) botPosition.value = saved } catch { /* position par défaut */ }
    streamTooltip(tooltipMessages.value[0])
   tooltipHideTimeout = window.setTimeout(() => { showTooltip.value = false }, 7000)
