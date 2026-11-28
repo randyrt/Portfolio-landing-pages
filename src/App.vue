@@ -4,6 +4,7 @@ import AOS from 'aos'
 import FrankAIstein from './components/FrankAIstein.vue'
 import ServicesAndGithub from './components/ServicesAndGithub.vue'
 import ContactSection from './components/ContactSection.vue'
+import WorkstationSection from './components/WorkstationSection.vue'
 import TestimonialsSection from './components/TestimonialsSection.vue'
 import WebCupSection from './components/WebCupSection.vue'
 import ConstellationAnimation from './components/ConstellationAnimation.vue'
@@ -226,7 +227,8 @@ onUnmounted(() => {
     </main>
     <ServicesAndGithub />
      <TestimonialsSection />
-    <ContactSection />
+     <ContactSection />
+     <WorkstationSection />
     <Transition name="cv-modal"><div v-if="cvOpen" class="cv-modal" role="dialog" aria-modal="true" aria-label="Curriculum vitae" @click.self="cvOpen=false"><div class="cv-dialog"><header><div><p class="kicker">DOCUMENT / RANDY ANDRIANTSIORY</p><h2>Curriculum <em>vitae.</em></h2></div><button class="cv-close" type="button" @click="cvOpen=false" aria-label="Fermer">×</button></header><div class="cv-viewer"><iframe src="/images/cv/CV_Randy_Andriantsiory_DEV_Backend.pdf" title="CV de Randy Andriantsiory"></iframe></div><footer><span>PDF · Laravel · Symfony · Vue.js</span><a class="cv-download" href="/images/cv/CV_Randy_Andriantsiory_DEV_Backend.pdf" download="CV_Randy_Andriantsiory_DEV_Backend.pdf">Télécharger mon CV ↓</a></footer></div></div></Transition>
     <Transition name="back-to-top"><button v-if="scrollPercent > 12" class="back-to-top" type="button" @click="scrollToTop" aria-label="Revenir en haut"><font-awesome-icon icon="arrow-up" /></button></Transition>
     <footer class="footer shell"><span>© 2026 RANDY ANDRIANTSIORY</span><span>MADE WITH CODE / MADAGASCAR</span><a href="#accueil">REVENIR EN HAUT ↑</a></footer>
