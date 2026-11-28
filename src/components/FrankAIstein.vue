@@ -33,9 +33,9 @@ const suggestions = ['Parle-moi de Randy', 'Quels sont ses projets ?', 'Quelles 
 const keys = [1, 2, 3, 4].map(i => import.meta.env[`VITE_GEMINI_API_KEY_${i}`]).filter(key => key?.startsWith('AIza'))
 const portfolioContext = `Tu es FrankAIstein, l'assistant intelligent du portfolio de Randy Andriantsiory. Ton nom vient de Frank + AI + Frankenstein : tu es une intelligence assemblée avec du code, des APIs et une personnalité humaine. Tu es friendly, professionnel, honnête, curieux et parfois joueur avec quelques emojis. Réponds dans la langue de l'utilisateur : français si la question est en français, anglais si elle est en anglais.
 
-IDENTITÉ DE RANDY : Randy Andriantsiory est un développeur PHP / Full-Stack et ingénieur DevOps basé à Madagascar, à Tananarive. Il a plus de 5 années d'expérience et plus de 15 projets réalisés en production. Il conçoit des applications web et mobiles modernes, rapides, maintenables et scalables. Il travaille de l'UX/UI et de l'architecture jusqu'aux APIs, bases de données, tests, CI/CD et déploiement.
+IDENTITÉ DE RANDY : Randy Andriantsiory est un Software Engineer et ingénieur DevOps basé à Madagascar, à Tananarive. Il a plus de 5 années d'expérience et plus de 15 projets réalisés en production. Il conçoit des applications web et mobiles modernes, rapides, maintenables et scalables. Il travaille de l'UX/UI et de l'architecture jusqu'aux APIs, bases de données, tests, CI/CD et déploiement.
 
-STACK TECHNIQUE : PHP, Python, Laravel, Symfony, FastAPI, JavaScript, Vue.js 3, React.js, Nuxt.js, TypeScript, Node.js, REST APIs, WebSockets, MySQL, MariaDB, PostgreSQL, Redis, Docker, Docker Compose, Kubernetes, Terraform, Linux, Git, GitHub, GitLab, GitHub Actions, TailwindCSS, Figma et IONIC/Capacitor.
+STACK TECHNIQUE : PHP, Python, Laravel, Symfony, FastAPI, JavaScript, Vue.js 3, React.js, Nuxt.js, TypeScript, Node.js, REST APIs, WebSockets, MySQL, MariaDB, PostgreSQL, Redis, Kafka, ElasticSearch, Docker, Docker Compose, Kubernetes, Terraform, Linux, GitHub, GitHub Actions, TailwindCSS et IONIC/Capacitor.
 
 PROJETS DU PORTFOLIO :
 - FID-CONNECT : plateforme SaaS de gestion comptable, fiscale et administrative pour des entreprises belges. Vue.js, Laravel, MySQL/MariaDB, TailwindCSS, Redis et Docker.
@@ -60,13 +60,13 @@ RÈGLES : réponds précisément à la question et ne fabrique jamais une inform
 const localAnswers = [
   { words: ['bonjour', 'salut', 'hello', 'coucou'], answer: 'Bonjour 👋 Je suis FrankAIstein. Je peux vous parler du parcours, des compétences, des projets ou des moyens de contacter Randy.' },
   { words: ['contact', 'email', 'contacter', 'joindre'], answer: 'Vous pouvez contacter Randy via la section Contact ou par email : randytsiory@gmail.com 📩' },
-  { words: ['compétence', 'technologie', 'stack', 'techno'], answer: 'Randy travaille notamment avec PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Docker, Kubernetes, Terraform, Linux et MySQL.' },
+  { words: ['compétence', 'technologie', 'stack', 'techno'], answer: 'Randy travaille notamment avec PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Redis, Kafka, ElasticSearch, Docker, Kubernetes, Terraform, Linux et MySQL.' },
   { words: ['projet', 'réalisation', 'portfolio'], answer: 'Ses projets phares sont FID-CONNECT, ECHO WEBLINE, INFI-SWAP, PETSFOLLOW PRO, E-LEARNING et AFR-FAN. Demandez-moi le détail d’un projet !' },
 ]
 const localAnswersEn = [
   { words: ['hello', 'hi', 'hey'], answer: 'Hello 👋 I’m FrankAIstein. I can tell you about Randy’s background, skills, projects or how to contact him.' },
   { words: ['contact', 'email', 'reach'], answer: 'You can contact Randy through the Contact section or by email: randytsiory@gmail.com 📩' },
-  { words: ['skill', 'technology', 'stack'], answer: 'Randy works with PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Docker, Kubernetes, Terraform, Linux and MySQL.' },
+  { words: ['skill', 'technology', 'stack'], answer: 'Randy works with PHP, Python, FastAPI, Vue.js, React.js, TypeScript, Laravel, Symfony, Node.js, Redis, Kafka, ElasticSearch, Docker, Kubernetes, Terraform, Linux and MySQL.' },
   { words: ['project', 'portfolio'], answer: 'His main projects include FID-CONNECT, ECHO WEBLINE, INFI-SWAP, PETSFOLLOW PRO, E-LEARNING and AFR-FAN. Ask me for details!' },
 ]
 
