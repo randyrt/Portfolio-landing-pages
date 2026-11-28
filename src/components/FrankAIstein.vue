@@ -116,12 +116,19 @@ async function send(value = input.value) {
   await scrollBottom()
 }
 async function streamResponse(answer) {
-  const message = { role: 'assistant', content: '' }
-  messages.value.push(message)
-  const speed = answer.length > 200 ? 5 : 15
-  for (const [index, character] of [...answer].entries()) {
-    message.content += character
-    if (index % 4 === 0 || index === answer.length - 1) await scrollBottom()
+  messages.value.push({ role: 'assistant', content: '' })
+  const lastIndex = messages.value.length - 1
+  const characters = [...answer]
+  let displayedText = ''
+  const speed = answer.length > 200 ? 18 : 35
+
+  for (let index = 0; index < characters.length; index++) {
+    displayedText += characters[index]
+    if (index % 8 === 0 || index === characters.length - 1) {
+      messages.value[lastIndex].content = displayedText
+      await nextTick()
+      await scrollBottom()
+    }
     await wait(speed)
   }
 }
